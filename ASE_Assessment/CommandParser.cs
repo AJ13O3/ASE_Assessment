@@ -38,6 +38,7 @@ namespace ASE_Assessment
                     throw new ArgumentException("Invalid parameters for rectangle command.");
                 }
             }
+
             else if (entry.Contains("moveto"))
             {
                 string[] parts = entry.Split(' ');
@@ -50,6 +51,7 @@ namespace ASE_Assessment
                     throw new ArgumentException("Invalid parameters for moveTo command.");
                 }
             }
+
             else if (entry.Contains("drawto"))
             {
                 string[] parts = entry.Split(' ');
@@ -63,24 +65,21 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry == "clear")
+            else if (entry.Contains("reset"))
             {
-                //i don't know what to do
-            }
-
-            else if (entry == "reset")
-            {
-                moveTo(10,10);
+                moveTo(10, 10);
             } 
 
             else if (entry.Contains("red pen"))
             {
                 penColour(Color.Red);
             }
+
             else if (entry.Contains("blue pen"))
             {
                 penColour(Color.Blue);
             }
+
             else if (entry.Contains("green pen"))
             {
                 penColour(Color.Green);
