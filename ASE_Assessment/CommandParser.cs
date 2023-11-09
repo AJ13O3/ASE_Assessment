@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3 && int.TryParse(parts[1], out int width) && int.TryParse(parts[2], out int height))
                 {
-                    DrawRectangle(width, height);
+                    drawRectangle(width, height);
                 }
                 else
                 {
@@ -40,14 +41,29 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
-                    System.Diagnostics.Debug.WriteLine("MT");
-                    System.Diagnostics.Debug.WriteLine(yLoc + " " + xLoc);
                     moveTo(xLoc,yLoc);
                 }
                 else
                 {
                     throw new ArgumentException("Invalid parameters for moveTo command.");
                 }
+            }
+            else if (entry.Contains("drawto"))
+            {
+                string[] parts = entry.Split(' ');
+                if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
+                {
+                    drawTo(xLoc, yLoc);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for moveTo command.");
+                }
+            }
+
+            else if (entry == "clear")
+            {
+
             }
 
             else if (entry.Contains("red pen"))
@@ -73,7 +89,14 @@ namespace ASE_Assessment
             currentXLocation = x;
             currentYLocation = y;
         }
-        private void DrawRectangle(int width, int height)
+        private void drawTo(int x, int y)
+        {
+            Pen pen = new Pen(currentPenColour);
+            drawingGraphics.DrawLine(pen, currentXLocation, currentYLocation, x, y);
+        }
+
+
+        private void drawRectangle(int width, int height)
         {
             Pen pen = new Pen(currentPenColour);
             drawingGraphics.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
