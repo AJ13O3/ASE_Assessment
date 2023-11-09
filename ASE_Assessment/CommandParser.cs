@@ -124,6 +124,11 @@ namespace ASE_Assessment
             {
                 fillStatus = false;
             }
+
+            else
+            {
+                throw new InvalidOperationException("Not a valid command");
+            }
         }
 
         private void penColour(Color colour)
