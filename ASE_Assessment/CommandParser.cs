@@ -13,6 +13,7 @@ namespace ASE_Assessment
         private Color currentPenColour = Color.Black;
         private int currentXLocation = 10;
         private int currentYLocation = 10;
+        private bool fillStatus = false;
         private PictureBox drawBox;
 
         public CommandParser(PictureBox pictureBox)
@@ -96,6 +97,7 @@ namespace ASE_Assessment
             else if (entry.Contains("reset"))
             {
                 moveTo(10, 10);
+                fillStatus = false;
             }
 
             else if (entry.Contains("red pen"))
@@ -111,6 +113,16 @@ namespace ASE_Assessment
             else if (entry.Contains("green pen"))
             {
                 penColour(Color.Green);
+            }
+
+            else if (entry.Contains("fill on"))
+            {
+                fillStatus = true;
+            }
+
+            else if (entry.Contains("fill off"))
+            {
+                fillStatus = false;
             }
         }
 
@@ -133,8 +145,17 @@ namespace ASE_Assessment
 
         private void drawRectangle(int width, int height)
         {
-            Pen pen = new Pen(currentPenColour);
-            g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
+            
+            if (fillStatus == false)
+            {
+                Pen pen = new Pen(currentPenColour);
+                g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
+            }
+            else
+            {
+                Brush brush = new SolidBrush(currentPenColour);
+                g.FillRectangle(brush, currentXLocation, currentYLocation, width, height);
+            }            
         }
 
         private void drawCircle(int radius)
