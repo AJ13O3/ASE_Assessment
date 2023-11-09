@@ -20,7 +20,7 @@ namespace ASE_Assessment
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void runButton_Click(object sender, EventArgs e)
         {
             if (commandLine.Text.Length > 0)
             {
@@ -45,6 +45,10 @@ namespace ASE_Assessment
             }
         }
 
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

@@ -55,7 +55,7 @@
             runButton.TabIndex = 1;
             runButton.Text = "Run";
             runButton.UseVisualStyleBackColor = true;
-            runButton.Click += button1_Click;
+            runButton.Click += runButton_Click;
             // 
             // drawBox
             // 
@@ -91,6 +91,7 @@
             saveButton.TabIndex = 5;
             saveButton.Text = "Save";
             saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += saveButton_Click;
             // 
             // label1
             // 
