@@ -39,6 +39,20 @@ namespace ASE_Assessment
                 }
             }
 
+            else if (entry.Contains("circle"))
+            {
+                string[] parts = entry.Split(' ');
+
+                if (parts.Length == 2 && int.TryParse(parts[1], out int radius))
+                {
+                    drawCircle(radius);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for circle command.");
+                }
+            }
+
             else if (entry.Contains("moveto"))
             {
                 string[] parts = entry.Split(' ');
@@ -107,6 +121,12 @@ namespace ASE_Assessment
         {
             Pen pen = new Pen(currentPenColour);
             g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
+        }
+
+        private void drawCircle(int radius)
+        {
+            Pen pen = new Pen(currentPenColour);
+            g.DrawEllipse(pen, currentXLocation, currentYLocation, radius*2, radius*2);
         }
 
     }
