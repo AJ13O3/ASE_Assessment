@@ -16,14 +16,26 @@ namespace ASE_Assessment
         public GraphicsLanguage()
         {
             InitializeComponent();
-            commandParser = new CommandParser(drawBox);
+            commandParser = new CommandParser(drawBox, programBox);
 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            commandParser.processCommand(commandLine.Text);
-            commandLine.Text = null;
+            if (commandLine.Text.Length > 0)
+            {
+                commandParser.processCommand(commandLine.Text);
+                commandLine.Text = null;
+            }
+            else
+            {
+                foreach (string n in programBox.Lines)
+                {
+                    commandParser.processCommand(n);
+                }
+            }
+
+
         }
 
         private void commandLine_KeyPress(object sender, KeyPressEventArgs e)

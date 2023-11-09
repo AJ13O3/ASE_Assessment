@@ -15,11 +15,13 @@ namespace ASE_Assessment
         private int currentYLocation = 10;
         private bool fillStatus = false;
         private PictureBox drawBox;
+        private TextBox programBox;
 
-        public CommandParser(PictureBox pictureBox)
+        public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
             drawBox = pictureBox;
             g = drawBox.CreateGraphics();
+            this.programBox = programBox;
         }
 
         public void processCommand(string entry)
@@ -123,6 +125,15 @@ namespace ASE_Assessment
             else if (entry.Contains("fill off"))
             {
                 fillStatus = false;
+            }
+
+            else if (entry.Contains("run"))
+            {
+                foreach (string n in programBox.Lines)
+                {
+                    processCommand(n);
+                }
+
             }
 
             else
