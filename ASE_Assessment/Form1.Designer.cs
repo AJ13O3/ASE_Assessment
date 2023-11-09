@@ -59,7 +59,7 @@
             // 
             // drawBox
             // 
-            drawBox.BackColor = SystemColors.ControlDark;
+            drawBox.BackColor = Color.White;
             drawBox.Location = new Point(403, 31);
             drawBox.Name = "drawBox";
             drawBox.Size = new Size(385, 319);
@@ -91,6 +91,13 @@
             saveButton.TabIndex = 5;
             saveButton.Text = "Save";
             saveButton.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 23);
+            label1.TabIndex = 0;
             // 
             // GraphicsLanguage
             // 

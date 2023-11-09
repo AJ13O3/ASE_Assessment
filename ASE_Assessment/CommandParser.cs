@@ -9,14 +9,16 @@ namespace ASE_Assessment
 {
     public class CommandParser
     {
-        private Graphics drawingGraphics;
+        private Graphics g;
         private Color currentPenColour = Color.Black;
         private int currentXLocation = 10;
         private int currentYLocation = 10;
+        private PictureBox drawBox;
 
-        public CommandParser(Graphics graphics)
+        public CommandParser(PictureBox pictureBox)
         {
-            drawingGraphics = graphics;
+            drawBox = pictureBox;
+            g = drawBox.CreateGraphics();
         }
 
         public void processCommand(string entry)
@@ -41,7 +43,7 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
-                    moveTo(xLoc,yLoc);
+                    moveTo(xLoc, yLoc);
                 }
                 else
                 {
@@ -63,8 +65,13 @@ namespace ASE_Assessment
 
             else if (entry == "clear")
             {
-
+                //i don't know what to do
             }
+
+            else if (entry == "reset")
+            {
+                moveTo(10,10);
+            } 
 
             else if (entry.Contains("red pen"))
             {
@@ -84,22 +91,23 @@ namespace ASE_Assessment
         {
             currentPenColour = colour;
         }
+
         private void moveTo(int x, int y) 
         {
             currentXLocation = x;
             currentYLocation = y;
         }
+
         private void drawTo(int x, int y)
         {
             Pen pen = new Pen(currentPenColour);
-            drawingGraphics.DrawLine(pen, currentXLocation, currentYLocation, x, y);
+            g.DrawLine(pen, currentXLocation, currentYLocation, x, y);
         }
-
 
         private void drawRectangle(int width, int height)
         {
             Pen pen = new Pen(currentPenColour);
-            drawingGraphics.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
+            g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
         }
 
     }

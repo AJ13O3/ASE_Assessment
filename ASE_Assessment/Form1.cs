@@ -16,7 +16,7 @@ namespace ASE_Assessment
         public GraphicsLanguage()
         {
             InitializeComponent();
-            commandParser = new CommandParser(drawBox.CreateGraphics());
+            commandParser = new CommandParser(drawBox);
 
         }
 
@@ -36,6 +36,6 @@ namespace ASE_Assessment
         }
 
     }
-   
+
 
 }
