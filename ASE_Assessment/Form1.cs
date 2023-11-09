@@ -47,7 +47,7 @@ namespace ASE_Assessment
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-
+            File.WriteAllText("C:\\Users\\amanj\\source\\repos\\ASE_Assessment\\program.txt", programBox.Text);
         }
     }
 

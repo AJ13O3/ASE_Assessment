@@ -1,0 +1,5 @@
+fill on
+triangle 10 10
+fill off
+moveto 70 50
+circle 50
