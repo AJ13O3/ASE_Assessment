@@ -1,5 +1,5 @@
-f
-f
-a
-fd
-ad
+moveto 50 50
+rectangle 100 100
+fill on
+moveto 20 75
+circle 50

@@ -82,6 +82,7 @@
             openButton.TabIndex = 4;
             openButton.Text = "Open";
             openButton.UseVisualStyleBackColor = true;
+            openButton.Click += openButton_Click;
             // 
             // saveButton
             // 

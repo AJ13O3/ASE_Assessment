@@ -48,22 +48,38 @@ namespace ASE_Assessment
         private void saveButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            
+
             saveFileDialog.InitialDirectory = "C:\\Users\\amanj\\source\\repos\\ASE_Assessment";
-            
+
             saveFileDialog.Title = "Save Program File";
-            
-            saveFileDialog.FileName = "program.txt";
-           
+
             saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
-            
+
             saveFileDialog.DefaultExt = "txt";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(saveFileDialog.FileName, programBox.Text);
             }
-            
+
+        }
+
+        private void openButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = "C:\\Users\\amanj\\source\\repos\\ASE_Assessment";
+
+            openFileDialog.Title = "Save Program File";
+
+            openFileDialog.Filter = "Text Files (*.txt)|*.txt";
+
+            openFileDialog.DefaultExt = "txt";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                programBox.Text = File.ReadAllText(openFileDialog.FileName);
+            }
         }
     }
 
