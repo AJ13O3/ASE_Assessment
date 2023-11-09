@@ -146,7 +146,7 @@ namespace ASE_Assessment
         private void drawRectangle(int width, int height)
         {
             
-            if (fillStatus == false)
+            if (!fillStatus)
             {
                 Pen pen = new Pen(currentPenColour);
                 g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
@@ -160,8 +160,17 @@ namespace ASE_Assessment
 
         private void drawCircle(int radius)
         {
-            Pen pen = new Pen(currentPenColour);
-            g.DrawEllipse(pen, currentXLocation, currentYLocation, radius*2, radius*2);
+            if (!fillStatus)
+            {
+                Pen pen = new Pen(currentPenColour);
+                g.DrawEllipse(pen, currentXLocation, currentYLocation, radius * 2, radius * 2);
+            }
+            else
+            {
+                Brush brush = new SolidBrush(currentPenColour);
+                g.FillEllipse(brush, currentXLocation, currentYLocation, radius * 2, radius * 2);
+            }
+
         }
 
         private void drawTriangle(int baseLength, int height)
@@ -172,8 +181,17 @@ namespace ASE_Assessment
 
             Point[] shapePoints = { p1, p2, p3 };
 
-            Pen pen = new Pen(currentPenColour);
-            g.DrawPolygon(pen, shapePoints);
+            if (!fillStatus)
+            {
+                Pen pen = new Pen(currentPenColour);
+                g.DrawPolygon(pen, shapePoints);
+            }
+            else
+            {
+                Brush brush = new SolidBrush(currentPenColour);
+                g.FillPolygon(brush, shapePoints);
+            }
+
         }
 
     }
