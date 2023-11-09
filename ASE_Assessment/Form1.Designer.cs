@@ -34,6 +34,7 @@
             programBox = new TextBox();
             openButton = new Button();
             saveButton = new Button();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)drawBox).BeginInit();
             SuspendLayout();
             // 
@@ -44,7 +45,6 @@
             commandLine.Name = "commandLine";
             commandLine.Size = new Size(776, 23);
             commandLine.TabIndex = 0;
-            commandLine.TextChanged += commandLine_TextChanged;
             commandLine.KeyPress += commandLine_KeyPress;
             // 
             // runButton
@@ -65,7 +65,6 @@
             drawBox.Size = new Size(385, 319);
             drawBox.TabIndex = 2;
             drawBox.TabStop = false;
-            drawBox.Paint += drawBox_Paint;
             // 
             // programBox
             // 
@@ -98,6 +97,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(saveButton);
             Controls.Add(openButton);
             Controls.Add(programBox);
@@ -119,5 +119,6 @@
         private TextBox programBox;
         private Button openButton;
         private Button saveButton;
+        private Label label1;
     }
 }
