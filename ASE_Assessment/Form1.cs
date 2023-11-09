@@ -34,8 +34,6 @@ namespace ASE_Assessment
                     commandParser.processCommand(n);
                 }
             }
-
-
         }
 
         private void commandLine_KeyPress(object sender, KeyPressEventArgs e)

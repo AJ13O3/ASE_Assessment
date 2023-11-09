@@ -134,6 +134,7 @@ namespace ASE_Assessment
                     processCommand(n);
                 }
 
+
             }
 
             else
@@ -147,7 +148,7 @@ namespace ASE_Assessment
             currentPenColour = colour;
         }
 
-        private void moveTo(int x, int y) 
+        private void moveTo(int x, int y)
         {
             currentXLocation = x;
             currentYLocation = y;
@@ -161,7 +162,7 @@ namespace ASE_Assessment
 
         private void drawRectangle(int width, int height)
         {
-            
+
             if (!fillStatus)
             {
                 Pen pen = new Pen(currentPenColour);
@@ -171,7 +172,7 @@ namespace ASE_Assessment
             {
                 Brush brush = new SolidBrush(currentPenColour);
                 g.FillRectangle(brush, currentXLocation, currentYLocation, width, height);
-            }            
+            }
         }
 
         private void drawCircle(int radius)
