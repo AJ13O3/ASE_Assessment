@@ -53,6 +53,20 @@ namespace ASE_Assessment
                 }
             }
 
+            else if (entry.Contains("triangle"))
+            {
+                string[] parts = entry.Split(' ');
+
+                if (parts.Length == 3 && int.TryParse(parts[1], out int baseLength) && int.TryParse(parts[2], out int height))
+                {
+                    drawTriangle(baseLength, height);
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for triangle command.");
+                }
+            }
+
             else if (entry.Contains("moveto"))
             {
                 string[] parts = entry.Split(' ');
@@ -82,7 +96,7 @@ namespace ASE_Assessment
             else if (entry.Contains("reset"))
             {
                 moveTo(10, 10);
-            } 
+            }
 
             else if (entry.Contains("red pen"))
             {
@@ -127,6 +141,18 @@ namespace ASE_Assessment
         {
             Pen pen = new Pen(currentPenColour);
             g.DrawEllipse(pen, currentXLocation, currentYLocation, radius*2, radius*2);
+        }
+
+        private void drawTriangle(int baseLength, int height)
+        {
+            Point p1 = new Point(currentXLocation, currentYLocation);
+            Point p2 = new Point(currentXLocation + baseLength, currentYLocation);
+            Point p3 = new Point(currentXLocation + (baseLength / 2), currentYLocation - height);
+
+            Point[] shapePoints = { p1, p2, p3 };
+
+            Pen pen = new Pen(currentPenColour);
+            g.DrawPolygon(pen, shapePoints);
         }
 
     }
