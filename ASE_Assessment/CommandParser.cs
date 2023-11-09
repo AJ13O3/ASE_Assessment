@@ -68,7 +68,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("moveto"))
+            else if (entry.Contains("move"))
             {
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
