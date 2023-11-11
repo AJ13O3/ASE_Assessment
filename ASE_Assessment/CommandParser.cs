@@ -83,6 +83,7 @@ namespace ASE_Assessment
                 }
             }
 
+
             else if (entry.Contains("drawto"))
             {
                 string[] parts = entry.Split(' ');
@@ -98,8 +99,7 @@ namespace ASE_Assessment
 
             else if (entry.Contains("reset"))
             {
-                moveTo(10, 10);
-                fillStatus = false;
+                reset();
             }
 
             else if (entry.Contains("red pen"))
@@ -158,6 +158,12 @@ namespace ASE_Assessment
         {
             Pen pen = new Pen(currentPenColour);
             g.DrawLine(pen, currentXLocation, currentYLocation, x, y);
+        }
+
+        private void reset()
+        {
+            moveTo(10, 10);
+            fillStatus = false;
         }
 
         private void drawRectangle(int width, int height)

@@ -12,7 +12,10 @@ namespace ASE_Assessment
 {
     public partial class GraphicsLanguage : Form
     {
+
         private CommandParser commandParser;
+
+
         public GraphicsLanguage()
         {
             InitializeComponent();
