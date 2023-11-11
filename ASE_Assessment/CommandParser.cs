@@ -143,29 +143,42 @@ namespace ASE_Assessment
             }
         }
 
+
+        /// <summary>Changes the colour of the pen.</summary>
+        /// <param name="colour">The colour.</param>
         private void penColour(Color colour)
         {
             currentPenColour = colour;
         }
 
+        /// <summary>Moves to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
+        /// <param name="x">The x position of the pen.</param>
+        /// <param name="y">The y position of the pen.</param>
         private void moveTo(int x, int y)
         {
             currentXLocation = x;
             currentYLocation = y;
         }
 
+        /// <summary>Draws to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
+        /// <param name="x">The x position of the pen.</param>
+        /// <param name="y">The y position of the pen.</param>
         private void drawTo(int x, int y)
         {
             Pen pen = new Pen(currentPenColour);
             g.DrawLine(pen, currentXLocation, currentYLocation, x, y);
         }
 
+        /// <summary>Resets the pen to it's default position.</summary>
         private void reset()
         {
             moveTo(10, 10);
             fillStatus = false;
         }
 
+        /// <summary>Draws a rectangle.</summary>
+        /// <param name="width">The width of the rectangle.</param>
+        /// <param name="height">The height of the rectangle.</param>
         private void drawRectangle(int width, int height)
         {
 
@@ -181,6 +194,8 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>Draws a circle.</summary>
+        /// <param name="radius">The radius of the circle.</param>
         private void drawCircle(int radius)
         {
             if (!fillStatus)
@@ -196,6 +211,9 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>Draws a triangle.</summary>
+        /// <param name="baseLength">Length of the base.</param>
+        /// <param name="height">The height of the triangle.</param>
         private void drawTriangle(int baseLength, int height)
         {
             Point p1 = new Point(currentXLocation, currentYLocation);
@@ -217,11 +235,13 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>Set the fill mode to on.</summary>
         private void fillOn()
         {
             fillStatus = true;
         }
 
+        /// <summary>Set the fill mode to off.</summary>
         private void fillOff()
         {
             fillStatus = false;
