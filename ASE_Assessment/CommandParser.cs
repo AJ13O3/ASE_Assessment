@@ -119,12 +119,12 @@ namespace ASE_Assessment
 
             else if (entry.Contains("fill on"))
             {
-                fillStatus = true;
+                fillOn();
             }
 
             else if (entry.Contains("fill off"))
             {
-                fillStatus = false;
+                fillOff();
             }
 
             else if (entry.Contains("run"))
@@ -215,6 +215,16 @@ namespace ASE_Assessment
                 g.FillPolygon(brush, shapePoints);
             }
 
+        }
+
+        private void fillOn()
+        {
+            fillStatus = true;
+        }
+
+        private void fillOff()
+        {
+            fillStatus = false;
         }
 
     }
