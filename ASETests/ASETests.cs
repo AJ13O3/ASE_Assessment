@@ -51,5 +51,30 @@ namespace ASETests
             Assert.AreEqual(endY, parser.currentYLocation, "Y location not updated correctly after drawTo");
 
         }
+
+        [TestMethod]
+        public void TestResetCommand()
+        {
+            // Arrange
+            int startX = 50;
+            int startY = 50;
+            int endX = 10;
+            int endY = 10;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Starting position
+            parser.processCommand("moveTo " + startX + " " + startY);
+
+            // Act
+            parser.processCommand("reset");
+
+            // Assert
+
+            Assert.AreEqual(endX, parser.currentXLocation, "X location not updated correctly after reset");
+            Assert.AreEqual(endY, parser.currentYLocation, "Y location not updated correctly after reset");
+
+        }
     }
 }
