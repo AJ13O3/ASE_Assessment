@@ -76,5 +76,30 @@ namespace ASETests
             Assert.AreEqual(endY, parser.currentYLocation, "Y location not updated correctly after reset");
 
         }
+        [TestMethod]
+        public void TestDrawRectangle()
+        {
+            // Arrange
+            int width = -50;
+            int height = -30;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act & Assert
+            try
+            {
+                parser.processCommand("rectangle " + width + " " + height);
+                Assert.Fail("Expected an ArgumentException to be thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Test pass
+            }
+            catch (Exception altException)
+            {
+                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+            }
+        }
     }
 }

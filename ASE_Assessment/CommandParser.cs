@@ -34,7 +34,14 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3 && int.TryParse(parts[1], out int width) && int.TryParse(parts[2], out int height))
                 {
-                    drawRectangle(width, height);
+                    if (width>0 && height > 0)
+                    {
+                        drawRectangle(width, height);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for rectangle command.");
+                    }
                 }
                 else
                 {
@@ -48,7 +55,14 @@ namespace ASE_Assessment
 
                 if (parts.Length == 2 && int.TryParse(parts[1], out int radius))
                 {
-                    drawCircle(radius);
+                    if (radius > 0)
+                    {
+                        drawCircle(radius);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for circle command.");
+                    }
                 }
                 else
                 {
@@ -62,7 +76,15 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3 && int.TryParse(parts[1], out int baseLength) && int.TryParse(parts[2], out int height))
                 {
-                    drawTriangle(baseLength, height);
+
+                    if (baseLength > 0 && height > 0)
+                    {
+                        drawTriangle(baseLength, height);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for triangle command.");
+                    }
                 }
                 else
                 {
@@ -75,7 +97,15 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
-                    moveTo(xLoc, yLoc);
+                    if (xLoc > 0 && yLoc > 0)
+                    {
+                        moveTo(xLoc, yLoc);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for moveTo command.");
+                    }
+                    
                 }
                 else
                 {
@@ -89,13 +119,21 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
-                    drawTo(xLoc, yLoc);
+                    if (xLoc > 0 && yLoc > 0)
+                    {
+                        drawTo(xLoc, yLoc);
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for drawTo command.");
+                    }
+
                     currentXLocation = xLoc;
                     currentYLocation = yLoc;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for moveTo command.");
+                    throw new ArgumentException("Invalid parameters for drawTo command.");
                 }
             }
 
