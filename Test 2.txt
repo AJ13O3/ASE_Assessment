@@ -1,0 +1,4 @@
+circle 50
+fill on
+moveto 50 100
+triangle 50 50
