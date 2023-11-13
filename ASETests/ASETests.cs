@@ -79,6 +79,35 @@ namespace ASETests
         }
 
         [TestMethod]
+        public void TestDrawToNegative()
+        {
+            // Arrange
+            int startX = -10;
+            int startY = -10;
+            int endX = -20;
+            int endY = -30;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act & Assert
+            try
+            {
+                parser.processCommand("moveTo " + startX + " " + startY);
+                parser.processCommand("drawTo " + endX + " " + endY);
+                Assert.Fail("Expected an ArgumentException to be thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Test pass
+            }
+            catch (Exception altException)
+            {
+                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+            }
+        }
+
+        [TestMethod]
         public void TestResetCommand()
         {
             // Arrange
