@@ -205,5 +205,36 @@ namespace ASETests
                 Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
             }
         }
+        [TestMethod]
+        public void TestFillOn()
+        {
+            // Arrange
+            bool newFillStatus = true;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.processCommand("fill on");
+
+            // Assert
+            Assert.AreEqual(newFillStatus, parser.fillStatus, "X location not updated correctly");
+        }
+        [TestMethod]
+        public void TestFillOff()
+        {
+            // Arrange
+            bool newFillStatus = false;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.processCommand("fill on");
+            parser.processCommand("fill off");
+
+            // Assert
+            Assert.AreEqual(newFillStatus, parser.fillStatus, "X location not updated correctly");
+        }
     }
 }

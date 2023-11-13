@@ -13,7 +13,7 @@ namespace ASE_Assessment
         private Color currentPenColour = Color.Black;
         public int currentXLocation = 10;
         public int currentYLocation = 10;
-        private bool fillStatus = false;
+        public bool fillStatus = false;
         private PictureBox drawBox;
         private TextBox programBox;
 
