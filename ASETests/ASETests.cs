@@ -101,5 +101,29 @@ namespace ASETests
                 Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
             }
         }
+        [TestMethod]
+        public void TestDrawCircle()
+        {
+            // Arrange
+            int radius = -50;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act & Assert
+            try
+            {
+                parser.processCommand("circle " + radius);
+                Assert.Fail("Expected an ArgumentException to be thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Test pass
+            }
+            catch (Exception altException)
+            {
+                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+            }
+        }
     }
 }
