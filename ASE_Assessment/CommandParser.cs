@@ -27,6 +27,7 @@ namespace ASE_Assessment
         public void processCommand(string entry)
         {
             entry = entry.ToLower();
+            entry = entry.Trim();
 
             if (entry.Contains("rectangle"))
             {
