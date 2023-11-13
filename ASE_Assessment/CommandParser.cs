@@ -11,8 +11,8 @@ namespace ASE_Assessment
     {
         private Graphics g;
         private Color currentPenColour = Color.Black;
-        private int currentXLocation = 10;
-        private int currentYLocation = 10;
+        public int currentXLocation = 10;
+        public int currentYLocation = 10;
         private bool fillStatus = false;
         private PictureBox drawBox;
         private TextBox programBox;
