@@ -1,0 +1,5 @@
+circle 50
+fill on
+rectangle 10 30
+moveto 40 40
+rectangle 40 40
