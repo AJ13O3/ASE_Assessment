@@ -28,6 +28,32 @@ namespace ASETests
         }
 
         [TestMethod]
+        public void TestMoveToNegative()
+        {
+            // Arrange
+            int newXLocation = -50;
+            int newYLocation = -30;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act & Assert
+            try
+            {
+                parser.processCommand("moveTo " + newXLocation + " " + newYLocation);
+                Assert.Fail("Expected an ArgumentException to be thrown");
+            }
+            catch (ArgumentException)
+            {
+                // Test pass
+            }
+            catch (Exception altException)
+            {
+                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+            }
+        }
+
+        [TestMethod]
         public void TestDrawToCommand()
         {
             // Arrange
