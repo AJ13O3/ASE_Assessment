@@ -2,6 +2,7 @@ using ASE_Assessment;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace ASETests
 
@@ -251,6 +252,30 @@ namespace ASETests
 
             // Assert
             Assert.AreEqual(newPenColour, parser.currentPenColour, "Pen colour not updated correctly");
+        }
+        [TestMethod]
+        public void TestInvalidCommand () 
+        {
+            // Arrange
+            string command = "agfvayjkisgd";
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act & Assert
+            try
+            {
+                parser.processCommand(command);
+                Assert.Fail("Expected an InvalidOperationException to be thrown");
+            }
+            catch (InvalidOperationException)
+            {
+                // Test pass
+            }
+            catch (Exception altException)
+            {
+                Assert.Fail("Expected an InvalidOperationException, but a different exception was thrown: " + altException.Message);
+            }
         }
     }
 }
