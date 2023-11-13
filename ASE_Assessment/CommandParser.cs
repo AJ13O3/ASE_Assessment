@@ -10,7 +10,7 @@ namespace ASE_Assessment
     public class CommandParser
     {
         private Graphics g;
-        private Color currentPenColour = Color.Black;
+        public Color currentPenColour = Color.Black;
         public int currentXLocation = 10;
         public int currentYLocation = 10;
         public bool fillStatus = false;

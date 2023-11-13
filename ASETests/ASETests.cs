@@ -1,4 +1,5 @@
 using ASE_Assessment;
+using System.Drawing;
 using System.Drawing.Text;
 using System.Windows.Forms;
 
@@ -218,7 +219,7 @@ namespace ASETests
             parser.processCommand("fill on");
 
             // Assert
-            Assert.AreEqual(newFillStatus, parser.fillStatus, "X location not updated correctly");
+            Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
         }
         [TestMethod]
         public void TestFillOff()
@@ -234,7 +235,22 @@ namespace ASETests
             parser.processCommand("fill off");
 
             // Assert
-            Assert.AreEqual(newFillStatus, parser.fillStatus, "X location not updated correctly");
+            Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
+        }
+        [TestMethod]
+        public void TestPen()
+        {
+            // Arrange
+            Color newPenColour = Color.Green;
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.processCommand("green pen");
+
+            // Assert
+            Assert.AreEqual(newPenColour, parser.currentPenColour, "Pen colour not updated correctly");
         }
     }
 }
