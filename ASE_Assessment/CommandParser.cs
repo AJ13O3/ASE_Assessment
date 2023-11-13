@@ -90,6 +90,8 @@ namespace ASE_Assessment
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
                     drawTo(xLoc, yLoc);
+                    currentXLocation = xLoc;
+                    currentYLocation = yLoc;
                 }
                 else
                 {
