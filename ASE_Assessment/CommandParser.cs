@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -117,7 +118,6 @@ namespace ASE_Assessment
                 }
             }
 
-
             else if (entry.Contains("drawto"))
             {
                 string[] parts = entry.Split(' ');
@@ -184,9 +184,10 @@ namespace ASE_Assessment
             else if (entry.Contains("="))
             {
                 string[] parts = entry.Split(' ');
+                string varName = parts[0];
+
                 if (parts.Length == 3) 
                 {    
-                    string varName = parts[0];
                     int.TryParse(parts[2], out int varValue);
                     if (variables.ContainsKey(varName))
                     {
@@ -195,9 +196,60 @@ namespace ASE_Assessment
                     else
                     {
                         variables.Add(varName, varValue);
+                    }                                    
+                }
+
+                else if (parts.Length > 3)
+                {
+                    string val1 = parts[2];
+                    int int1 = 0;
+                    string op = parts[3];
+                    string val2 = parts[4];
+                    int int2 = 0;
+
+                    if (variables.ContainsKey(val1))
+                    {
+                        int1 = variables[val1];
                     }
-                    
-                    
+                    else
+                    {
+                        int.TryParse(val1, out int1) ;
+                    }
+
+                    if (variables.ContainsKey(val2))
+                    {
+                        int2 = variables[val2];
+                    }
+                    else
+                    {
+                        int.TryParse(val2, out int2);
+                    }
+
+                    if (op == "+")
+                    {
+                        variables[varName] = int1 + int2;
+                    }
+                    else if (op == "-")
+                    {
+                        variables[varName] = int1 - int2;
+                    }
+                    else if(op == "*")
+                    {
+                        variables[varName] = int1 * int2;
+                    }
+                    else if (op == "/")
+                    {
+                        variables[varName] = int1 / int2;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Invalid parameters for expression");
+                    }
+                }
+
+                else
+                {                    
+                   throw new ArgumentException("Invalid parameters for expression");
                 }
             }
             else if(entry.Contains("print dict"))
