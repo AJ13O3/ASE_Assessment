@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,6 +18,7 @@ namespace ASE_Assessment
         public bool fillStatus = false;
         private PictureBox drawBox;
         private TextBox programBox;
+        private Dictionary<string, int> variables = new Dictionary<string, int>();
 
         public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
@@ -176,6 +179,33 @@ namespace ASE_Assessment
                 }
 
 
+            }
+
+            else if (entry.Contains("="))
+            {
+                string[] parts = entry.Split(' ');
+                if (parts.Length == 3) 
+                {    
+                    string varName = parts[0];
+                    int.TryParse(parts[2], out int varValue);
+                    if (variables.ContainsKey(varName))
+                    {
+                        variables[varName] = varValue;
+                    }
+                    else
+                    {
+                        variables.Add(varName, varValue);
+                    }
+                    
+                    
+                }
+            }
+            else if(entry.Contains("print dict"))
+            {
+                foreach (KeyValuePair<string, int> kvp in variables)
+                {  
+                    Debug.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+                }
             }
 
             else
