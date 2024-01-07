@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,9 @@ namespace ASE_Assessment
         private Dictionary<string, int> variables = new Dictionary<string, int>();
         private bool ifBlock = false;
         private bool executeCommand = true;
+        private bool loopBlock = false;
+        private int loopCount = 0;
+        private List<string> loopCommands = new List<string>();
 
         public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
@@ -52,20 +56,38 @@ namespace ASE_Assessment
                 return; // Skip command if inside if block and condition is false
             }
 
+            else if (entry.StartsWith("loop"))
+            {
+                loopBlock = true;
+                int.TryParse(entry.Substring(5), out loopCount);
+
+                loopCommands.Clear();
+            }
+
+            else if (entry == "endloop")
+            {
+                loopBlock = false;
+                for (int i = 0; i < loopCount; i++)
+                {
+                    foreach (string command in loopCommands)
+                    {
+                        processCommand(command);
+                    }
+                }
+            }
+
+            else if (loopBlock)
+            {
+                loopCommands.Add(entry);
+            }
+
             else if (entry.Contains("rectangle"))
             {
                 string[] parts = entry.Split(' ');
 
-                if (parts.Length == 3 && int.TryParse(parts[1], out int width) && int.TryParse(parts[2], out int height))
+                if (parts.Length == 3)
                 {
-                    if (width>0 && height > 0)
-                    {
-                        drawRectangle(width, height);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for rectangle command.");
-                    }
+                    drawRectangle(parts[1], parts[2]);
                 }
                 else
                 {
@@ -77,16 +99,9 @@ namespace ASE_Assessment
             {
                 string[] parts = entry.Split(' ');
 
-                if (parts.Length == 2 && int.TryParse(parts[1], out int radius))
+                if (parts.Length == 2)
                 {
-                    if (radius > 0)
-                    {
-                        drawCircle(radius);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for circle command.");
-                    }
+                    drawCircle(parts[1]);
                 }
                 else
                 {
@@ -98,17 +113,9 @@ namespace ASE_Assessment
             {
                 string[] parts = entry.Split(' ');
 
-                if (parts.Length == 3 && int.TryParse(parts[1], out int baseLength) && int.TryParse(parts[2], out int height))
+                if (parts.Length == 3)
                 {
-
-                    if (baseLength > 0 && height > 0)
-                    {
-                        drawTriangle(baseLength, height);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for triangle command.");
-                    }
+                    drawTriangle(parts[1], parts[2]);
                 }
                 else
                 {
@@ -118,7 +125,8 @@ namespace ASE_Assessment
 
             else if (entry.Contains("move"))
             {
-                string[] parts = entry.Split(' ');
+                string[] parts = entry.Trim().Split(' ');
+                
                 if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
                 {
                     if (xLoc > 0 && yLoc > 0)
@@ -272,7 +280,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains(" "))
+            else if (entry.Contains(" ") || entry.Contains(""))
             {
                 return;
             }
@@ -319,34 +327,65 @@ namespace ASE_Assessment
         /// <summary>Draws a rectangle.</summary>
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
-        private void drawRectangle(int width, int height)
+        private void drawRectangle(string width, string height)
         {
+            int widthVal, heightVal;
+
+            // Check if widthParameter is a variable and get its value
+            if (variables.ContainsKey(width))
+            {
+                widthVal = variables[width];
+            }
+            else if (!int.TryParse(width, out widthVal))
+            {
+                throw new ArgumentException("Invalid width parameter for rectangle command.");
+            }
+
+            // Check if heightParameter is a variable and get its value
+            if (variables.ContainsKey(height))
+            {
+                heightVal = variables[height];
+            }
+            else if (!int.TryParse(height, out heightVal))
+            {
+                throw new ArgumentException("Invalid height parameter for rectangle command.");
+            }
 
             if (!fillStatus)
             {
                 Pen pen = new Pen(currentPenColour);
-                g.DrawRectangle(pen, currentXLocation, currentYLocation, width, height);
+                g.DrawRectangle(pen, currentXLocation, currentYLocation, widthVal, heightVal);
             }
             else
             {
                 Brush brush = new SolidBrush(currentPenColour);
-                g.FillRectangle(brush, currentXLocation, currentYLocation, width, height);
+                g.FillRectangle(brush, currentXLocation, currentYLocation, widthVal, heightVal);
             }
         }
 
         /// <summary>Draws a circle.</summary>
         /// <param name="radius">The radius of the circle.</param>
-        private void drawCircle(int radius)
+        private void drawCircle(string radius)
         {
+            int radiusVal;
+
+            if (variables.ContainsKey(radius))
+            {
+                radiusVal = variables[radius];
+            }
+            else if (!int.TryParse (radius, out radiusVal))
+            {
+                throw new ArgumentException("Invalid height parameter for rectangle command.");
+            }
             if (!fillStatus)
             {
                 Pen pen = new Pen(currentPenColour);
-                g.DrawEllipse(pen, currentXLocation, currentYLocation, radius * 2, radius * 2);
+                g.DrawEllipse(pen, currentXLocation, currentYLocation, radiusVal * 2, radiusVal * 2);
             }
             else
             {
                 Brush brush = new SolidBrush(currentPenColour);
-                g.FillEllipse(brush, currentXLocation, currentYLocation, radius * 2, radius * 2);
+                g.FillEllipse(brush, currentXLocation, currentYLocation, radiusVal * 2, radiusVal * 2);
             }
 
         }
@@ -354,13 +393,32 @@ namespace ASE_Assessment
         /// <summary>Draws a triangle.</summary>
         /// <param name="baseLength">Length of the base.</param>
         /// <param name="height">The height of the triangle.</param>
-        private void drawTriangle(int baseLength, int height)
+        private void drawTriangle(string baseLength, string height)
         {
+            int baseLengthVal, heightVal;
+            if (variables.ContainsKey(baseLength))
+            {
+                baseLengthVal = variables[baseLength];
+            }
+            else if (!int.TryParse(baseLength, out baseLengthVal))
+            {
+                
+            }
+            if (variables.ContainsKey(height))
+            {
+                heightVal = variables[height];
+            }
+            else if (!int.TryParse(height, out heightVal))
+            {
+
+            }
             Point p1 = new Point(currentXLocation, currentYLocation);
-            Point p2 = new Point(currentXLocation + baseLength, currentYLocation);
-            Point p3 = new Point(currentXLocation + (baseLength / 2), currentYLocation - height);
+            Point p2 = new Point(currentXLocation + baseLengthVal, currentYLocation);
+            Point p3 = new Point(currentXLocation + (baseLengthVal / 2), currentYLocation - heightVal);
 
             Point[] shapePoints = { p1, p2, p3 };
+
+           
 
             if (!fillStatus)
             {
@@ -456,3 +514,7 @@ namespace ASE_Assessment
         }
     }
 }
+
+
+//TO DO 
+// Amend shapes for variables, fix and finish loops, input validation, rest of assignment
