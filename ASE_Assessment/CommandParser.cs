@@ -20,6 +20,8 @@ namespace ASE_Assessment
         private PictureBox drawBox;
         private TextBox programBox;
         private Dictionary<string, int> variables = new Dictionary<string, int>();
+        private bool ifBlock = false;
+        private bool executeCommand = true;
 
         public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
@@ -33,7 +35,24 @@ namespace ASE_Assessment
             entry = entry.ToLower();
             entry = entry.Trim();
 
-            if (entry.Contains("rectangle"))
+            if (entry.StartsWith("if"))
+            {
+                ifBlock = true;
+                executeCommand = evaluateCondition(entry.Substring(3));
+            }
+
+            else if (entry == "endif")
+            {
+                ifBlock = false;
+                executeCommand = true;
+            }
+
+            else if (ifBlock && !executeCommand)
+            {
+                return; // Skip command if inside if block and condition is false
+            }
+
+            else if (entry.Contains("rectangle"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -252,12 +271,10 @@ namespace ASE_Assessment
                    throw new ArgumentException("Invalid parameters for expression");
                 }
             }
-            else if(entry.Contains("print dict"))
+
+            else if (entry.Contains(" "))
             {
-                foreach (KeyValuePair<string, int> kvp in variables)
-                {  
-                    Debug.WriteLine("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
-                }
+                return;
             }
 
             else
@@ -369,6 +386,73 @@ namespace ASE_Assessment
         {
             fillStatus = false;
         }
+        private bool evaluateCondition(string condition)
+        {
+            // Evaluate the condition expression (e.g., "count > size")
+            // Return true or false
+            string[] parts = condition.Split(" ");
 
+            if (parts.Length == 3)
+            {
+                string val1 = parts[0];
+                int int1 = 0;
+                string op = parts[1];
+                string val2 = parts[2];
+                int int2 = 0;
+
+                if (variables.ContainsKey(val1))
+                {
+                    int1 = variables[val1];
+                }
+                else
+                {
+                    int.TryParse(val1, out int1);
+                }
+
+                if (variables.ContainsKey(val2))
+                {
+                    int2 = variables[val2];
+                }
+                else
+                {
+                    int.TryParse(val2, out int2);
+                }
+
+                if (op == ">")
+                {
+                    return int1 > int2;
+                }
+                else if (op == "<")
+                {
+                    return int1 < int2;
+                }
+                else if (op == "<=")
+                {
+                    return int1 <= int2;
+                }
+                else if (op == "=>")
+                {
+                    return int1 >= int2;
+                }
+                else if (op == "==")
+                {
+                    return int1 == int2;
+                }
+                else if (op == "!=")
+                {
+                    return int1 != int2;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid parameters for if condition");
+
+                }
+
+            }
+            else
+            {
+                throw new ArgumentException("Invalid parameters for if condition");
+            }
+        }
     }
 }
