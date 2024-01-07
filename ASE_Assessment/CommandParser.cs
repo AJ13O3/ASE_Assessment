@@ -126,18 +126,10 @@ namespace ASE_Assessment
             else if (entry.Contains("move"))
             {
                 string[] parts = entry.Trim().Split(' ');
-                
-                if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
+
+                if (parts.Length == 3)
                 {
-                    if (xLoc > 0 && yLoc > 0)
-                    {
-                        moveTo(xLoc, yLoc);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for moveTo command.");
-                    }
-                    
+                    moveTo(parts[1], parts[2]);
                 }
                 else
                 {
@@ -302,10 +294,30 @@ namespace ASE_Assessment
         /// <summary>Moves to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
-        private void moveTo(int x, int y)
+        private void moveTo(string x, string y)
         {
-            currentXLocation = x;
-            currentYLocation = y;
+            int xVal, yVal;
+
+            if (variables.ContainsKey(x))
+            {
+                xVal = variables[x];
+            }
+            else if (!int.TryParse(x, out xVal))
+            {
+                throw new ArgumentException("Invalid x parameter for moveTo command.");
+            }
+
+            if (variables.ContainsKey(y))
+            {
+                yVal = variables[y];
+            }
+            else if (!int.TryParse(y, out yVal))
+            {
+                throw new ArgumentException("Invalid y parameter for moveTo command.");
+            }
+
+            currentXLocation = xVal;
+            currentYLocation = yVal;
         }
 
         /// <summary>Draws to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
@@ -320,7 +332,7 @@ namespace ASE_Assessment
         /// <summary>Resets the pen to it's default position.</summary>
         private void reset()
         {
-            moveTo(10, 10);
+            moveTo("10","10");
             fillStatus = false;
         }
 
