@@ -82,7 +82,7 @@ namespace ASE_Assessment
                 loopCommands.Add(entry);
             }
 
-            else if (entry.Contains("rectangle"))
+            else if (entry.StartsWith("rectangle"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -96,7 +96,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("circle"))
+            else if (entry.StartsWith("circle"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -110,7 +110,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("triangle"))
+            else if (entry.StartsWith("triangle"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -124,7 +124,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("move"))
+            else if (entry.StartsWith("move"))
             {
                 string[] parts = entry.Trim().Split(' ');
 
@@ -138,7 +138,7 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("drawto"))
+            else if (entry.StartsWith("drawto"))
             {
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3)
@@ -151,32 +151,32 @@ namespace ASE_Assessment
                 }
             }
 
-            else if (entry.Contains("reset"))
+            else if (entry == "reset")
             {
                 reset();
             }
 
-            else if (entry.Contains("red pen"))
+            else if (entry == "red pen")
             {
                 penColour(Color.Red);
             }
 
-            else if (entry.Contains("blue pen"))
+            else if (entry == "blue pen")
             {
                 penColour(Color.Blue);
             }
 
-            else if (entry.Contains("green pen"))
+            else if (entry == "green pen")
             {
                 penColour(Color.Green);
             }
 
-            else if (entry.Contains("fill on"))
+            else if (entry == "fill on")
             {
                 fillOn();
             }
 
-            else if (entry.Contains("fill off"))
+            else if (entry == "fill off")
             {
                 fillOff();
             }
@@ -262,8 +262,7 @@ namespace ASE_Assessment
                    throw new ArgumentException("Invalid parameters for expression");
                 }
             }
-
-            else if (entry.Contains(" ") || entry.Contains(""))
+            else if (entry.Length == 0)
             {
                 return;
             }
