@@ -140,19 +140,9 @@ namespace ASE_Assessment
             else if (entry.Contains("drawto"))
             {
                 string[] parts = entry.Split(' ');
-                if (parts.Length == 3 && int.TryParse(parts[1], out int xLoc) && int.TryParse(parts[2], out int yLoc))
+                if (parts.Length == 3)
                 {
-                    if (xLoc > 0 && yLoc > 0)
-                    {
-                        drawTo(xLoc, yLoc);
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for drawTo command.");
-                    }
-
-                    currentXLocation = xLoc;
-                    currentYLocation = yLoc;
+                    drawTo(parts[1], parts[2]);
                 }
                 else
                 {
@@ -323,10 +313,33 @@ namespace ASE_Assessment
         /// <summary>Draws to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
-        private void drawTo(int x, int y)
+        private void drawTo(string x, string y)
         {
+            int xVal, yVal;
+
+            if (variables.ContainsKey(x))
+            {
+                xVal = variables[x];
+            }
+            else if (!int.TryParse(x, out xVal))
+            {
+                throw new ArgumentException("Invalid x parameter for drawTo command.");
+            }
+
+            if (variables.ContainsKey(y))
+            {
+                yVal = variables[y];
+            }
+            else if (!int.TryParse(y, out yVal))
+            {
+                throw new ArgumentException("Invalid y parameter for drawTo command.");
+            }
+
             Pen pen = new Pen(currentPenColour);
-            g.DrawLine(pen, currentXLocation, currentYLocation, x, y);
+            g.DrawLine(pen, currentXLocation, currentYLocation, xVal, yVal);
+
+            currentXLocation = xVal;
+            currentYLocation = yVal;
         }
 
         /// <summary>Resets the pen to it's default position.</summary>
