@@ -74,6 +74,7 @@ namespace ASE_Assessment
                         processCommand(command);
                     }
                 }
+                loopCommands.Clear();
             }
 
             else if (loopBlock)
