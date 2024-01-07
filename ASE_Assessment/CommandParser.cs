@@ -26,6 +26,8 @@ namespace ASE_Assessment
         private bool loopBlock = false;
         private int loopCount = 0;
         private List<string> loopCommands = new List<string>();
+        private UserMethod currentMethod;
+        private Dictionary<string, UserMethod> userMethods = new Dictionary<string, UserMethod>();
 
         public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
@@ -39,7 +41,26 @@ namespace ASE_Assessment
             entry = entry.ToLower();
             entry = entry.Trim();
 
-            if (entry.StartsWith("if"))
+            if (entry.StartsWith("method"))
+            {
+                // Start of a method definition
+                defineMethod(entry);
+            }
+            else if (entry.StartsWith("endmethod"))
+            {
+                // End of a method definition
+                currentMethod = null; // Assuming currentMethod is a field that tracks method being defined
+            }
+            else if (currentMethod != null)
+            {
+                // Add commands to the current method definition
+                currentMethod.Commands.Add(entry);
+            }
+            else if (userMethods.ContainsKey(entry.Split('(')[0]))
+            {
+                callMethod(entry);
+            }
+            else if (entry.StartsWith("if"))
             {
                 ifBlock = true;
                 executeCommand = evaluateCondition(entry.Substring(3));
@@ -471,8 +492,7 @@ namespace ASE_Assessment
         }
         private bool evaluateCondition(string condition)
         {
-            // Evaluate the condition expression (e.g., "count > size")
-            // Return true or false
+            // Evaluate the condition expression (eg count > size)
             string[] parts = condition.Split(" ");
 
             if (parts.Length == 3)
@@ -537,6 +557,55 @@ namespace ASE_Assessment
                 throw new ArgumentException("Invalid parameters for if condition");
             }
         }
+
+        private void defineMethod(string definition)
+        {
+            var parts = definition.Split(" ");
+            var methodName = parts[1]; // Get the method name                                       
+            var parametersPart = definition.Substring(definition.IndexOf('(') + 1);// Extracting the parameter list
+            parametersPart = parametersPart.Substring(0, parametersPart.IndexOf(')')).Trim();
+            var parameters = parametersPart.Split(',').Select(p => p.Trim()).ToList();
+
+            if (userMethods.ContainsKey(methodName))
+            {
+               throw new ArgumentException($"A method with the name '{methodName}' already exists.");
+            }
+            currentMethod = new UserMethod
+            {
+                Parameters = parameters
+            };
+
+            userMethods.Add(methodName, currentMethod);// Store the method definition
+
+        }
+        private void callMethod(string invocation)
+        {
+            // Split the invocation into the method name and arguments
+            var parts = invocation.Split(" ");
+            var methodName = parts[0].Trim();
+            var arguments = parts.Length > 1 ? parts[1].Split(',') : new string[0];
+
+            // Check if the method exists
+            if (userMethods.TryGetValue(methodName, out var method))
+            {
+                // Replace parameters with actual arguments and execute the method
+                foreach (var command in method.Commands)
+                {
+                    var processedCommand = command;
+                    for (int i = 0; i < method.Parameters.Count; i++)
+                    {
+                        processedCommand = processedCommand.Replace(method.Parameters[i], arguments.Length > i ? arguments[i].Trim() : "");
+                    }
+                    processCommand(processedCommand); // Execute the command
+                }
+            }
+            else
+            {
+                // Handle the case when the method is not found
+                throw new ArgumentException($"Method '{methodName}' not defined.");
+            }
+        }
+
     }
 }
 
