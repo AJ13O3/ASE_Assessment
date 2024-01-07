@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ASE_Assessment
 {
     public partial class GraphicsLanguage : Form
     {
-
         private CommandParser commandParser;
 
 
@@ -82,6 +83,18 @@ namespace ASE_Assessment
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 programBox.Text = File.ReadAllText(openFileDialog.FileName);
+            }
+        }
+
+        private void programBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab)
+            {
+                //e.SuppressKeyPress = true;  // Prevent the default behavior of the Tab key
+                int selectionIndex = programBox.SelectionStart;
+                programBox.Text = programBox.Text.Insert(selectionIndex, "\t");
+                programBox.SelectionStart = selectionIndex + 1; // Move the cursor after the inserted tab
+                e.IsInputKey = true;
             }
         }
     }

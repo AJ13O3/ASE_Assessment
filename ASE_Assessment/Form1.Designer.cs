@@ -73,6 +73,7 @@
             programBox.Name = "programBox";
             programBox.Size = new Size(385, 319);
             programBox.TabIndex = 3;
+            programBox.PreviewKeyDown += programBox_PreviewKeyDown;
             // 
             // openButton
             // 
