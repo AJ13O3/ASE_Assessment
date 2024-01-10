@@ -5,10 +5,12 @@ using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-
+//TO DO 
+// Get methods working
 namespace ASE_Assessment
 {
     public class CommandParser
@@ -49,16 +51,26 @@ namespace ASE_Assessment
             else if (entry.StartsWith("endmethod"))
             {
                 // End of a method definition
-                currentMethod = null; // Assuming currentMethod is a field that tracks method being defined
+                // Assuming currentMethod is a field that tracks method being defined
+                currentMethod = null;
+
             }
             else if (currentMethod != null)
             {
                 // Add commands to the current method definition
                 currentMethod.Commands.Add(entry);
             }
-            else if (userMethods.ContainsKey(entry.Split('(')[0]))
+            else if (entry.Contains("("))
             {
-                callMethod(entry);
+                int parenthesisIndex = entry.IndexOf('(');
+                string methodName = entry.Substring(0, parenthesisIndex).Trim();
+
+                
+
+                if (userMethods.ContainsKey(methodName))
+                {
+                    callMethod(entry);
+                }
             }
             else if (entry.StartsWith("if"))
             {
@@ -576,14 +588,22 @@ namespace ASE_Assessment
             };
 
             userMethods.Add(methodName, currentMethod);// Store the method definition
-
+            
         }
         private void callMethod(string invocation)
         {
             // Split the invocation into the method name and arguments
+            
             var parts = invocation.Split(" ");
+
             var methodName = parts[0].Trim();
-            var arguments = parts.Length > 1 ? parts[1].Split(',') : new string[0];
+
+            var arguments = invocation.Substring(invocation.IndexOf('(') + 1);// Extracting the arguments list
+            arguments = arguments.Substring(0, arguments.IndexOf(')')).Trim();
+
+            Debug.WriteLine(arguments);
+
+            var argVals = parts.Length > 1 ? arguments.Split(',') : new string[0];
 
             // Check if the method exists
             if (userMethods.TryGetValue(methodName, out var method))
@@ -594,7 +614,7 @@ namespace ASE_Assessment
                     var processedCommand = command;
                     for (int i = 0; i < method.Parameters.Count; i++)
                     {
-                        processedCommand = processedCommand.Replace(method.Parameters[i], arguments.Length > i ? arguments[i].Trim() : "");
+                        processedCommand = processedCommand.Replace(method.Parameters[i], argVals.Length > i ? argVals[i].Trim() : "");
                     }
                     processCommand(processedCommand); // Execute the command
                 }
@@ -604,11 +624,10 @@ namespace ASE_Assessment
                 // Handle the case when the method is not found
                 throw new ArgumentException($"Method '{methodName}' not defined.");
             }
+            
         }
 
     }
 }
 
 
-//TO DO 
-// Amend shapes for variables, fix and finish loops, input validation, rest of assignment

@@ -45,6 +45,7 @@
             commandLine.Name = "commandLine";
             commandLine.Size = new Size(776, 23);
             commandLine.TabIndex = 0;
+            commandLine.TabStop = false;
             commandLine.KeyPress += commandLine_KeyPress;
             // 
             // runButton
@@ -53,6 +54,7 @@
             runButton.Name = "runButton";
             runButton.Size = new Size(75, 23);
             runButton.TabIndex = 1;
+            runButton.TabStop = false;
             runButton.Text = "Run";
             runButton.UseVisualStyleBackColor = true;
             runButton.Click += runButton_Click;
@@ -73,7 +75,8 @@
             programBox.Name = "programBox";
             programBox.Size = new Size(385, 319);
             programBox.TabIndex = 3;
-            programBox.PreviewKeyDown += programBox_PreviewKeyDown;
+            programBox.TabStop = false;
+            programBox.KeyDown += programBox_KeyDown;
             // 
             // openButton
             // 
@@ -81,6 +84,7 @@
             openButton.Name = "openButton";
             openButton.Size = new Size(75, 23);
             openButton.TabIndex = 4;
+            openButton.TabStop = false;
             openButton.Text = "Open";
             openButton.UseVisualStyleBackColor = true;
             openButton.Click += openButton_Click;
@@ -91,6 +95,7 @@
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(75, 23);
             saveButton.TabIndex = 5;
+            saveButton.TabStop = false;
             saveButton.Text = "Save";
             saveButton.UseVisualStyleBackColor = true;
             saveButton.Click += saveButton_Click;

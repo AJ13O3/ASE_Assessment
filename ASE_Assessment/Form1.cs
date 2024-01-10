@@ -86,16 +86,19 @@ namespace ASE_Assessment
             }
         }
 
-        private void programBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void programBox_KeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.KeyCode == Keys.Tab)
             {
-                //e.SuppressKeyPress = true;  // Prevent the default behavior of the Tab key
+                e.SuppressKeyPress = true;
                 int selectionIndex = programBox.SelectionStart;
                 programBox.Text = programBox.Text.Insert(selectionIndex, "\t");
-                programBox.SelectionStart = selectionIndex + 1; // Move the cursor after the inserted tab
-                e.IsInputKey = true;
+                programBox.SelectionStart = selectionIndex + 1;
+
+                // Prevent the default behavior of the Tab key
             }
+
         }
     }
 
