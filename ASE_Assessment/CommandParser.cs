@@ -325,25 +325,8 @@ namespace ASE_Assessment
         /// <param name="y">The y position of the pen.</param>
         private void MoveTo(string x, string y)
         {
-            int xVal, yVal;
-
-            if (variables.ContainsKey(x))
-            {
-                xVal = variables[x];
-            }
-            else if (!int.TryParse(x, out xVal))
-            {
-                throw new ArgumentException("Invalid x parameter for moveTo command.");
-            }
-
-            if (variables.ContainsKey(y))
-            {
-                yVal = variables[y];
-            }
-            else if (!int.TryParse(y, out yVal))
-            {
-                throw new ArgumentException("Invalid y parameter for moveTo command.");
-            }
+            int xVal = GetParameterValue(x);
+            int yVal = GetParameterValue(y);
 
             currentXLocation = xVal;
             currentYLocation = yVal;
@@ -354,25 +337,9 @@ namespace ASE_Assessment
         /// <param name="y">The y position of the pen.</param>
         private void DrawTo(string x, string y)
         {
-            int xVal, yVal;
-
-            if (variables.ContainsKey(x))
-            {
-                xVal = variables[x];
-            }
-            else if (!int.TryParse(x, out xVal))
-            {
-                throw new ArgumentException("Invalid x parameter for drawTo command.");
-            }
-
-            if (variables.ContainsKey(y))
-            {
-                yVal = variables[y];
-            }
-            else if (!int.TryParse(y, out yVal))
-            {
-                throw new ArgumentException("Invalid y parameter for drawTo command.");
-            }
+           
+            int xVal = GetParameterValue(x);
+            int yVal = GetParameterValue(y);
 
             Pen pen = new Pen(currentPenColour);
             g.DrawLine(pen, currentXLocation, currentYLocation, xVal, yVal);
@@ -425,12 +392,20 @@ namespace ASE_Assessment
             // Check if the parameter is a variable name in the dictionary
             if (variables.TryGetValue(parameter, out int value))
             {
+                if (value < 0)
+                {
+                    throw new ArgumentException($"Parameter value cannot be negative: {parameter}");
+                }
                 return value;
             }
 
             // If not a variable, try parsing the parameter as an integer
             if (int.TryParse(parameter, out int parsedValue))
             {
+                if (parsedValue < 0)
+                {
+                    throw new ArgumentException($"Parameter value cannot be negative: {parameter}");
+                }
                 return parsedValue;
             }
 
@@ -458,28 +433,10 @@ namespace ASE_Assessment
             if (parts.Length == 3)
             {
                 string val1 = parts[0];
-                int int1 = 0;
                 string op = parts[1];
                 string val2 = parts[2];
-                int int2 = 0;
-
-                if (variables.ContainsKey(val1))
-                {
-                    int1 = variables[val1];
-                }
-                else
-                {
-                    int.TryParse(val1, out int1);
-                }
-
-                if (variables.ContainsKey(val2))
-                {
-                    int2 = variables[val2];
-                }
-                else
-                {
-                    int.TryParse(val2, out int2);
-                }
+                int int1 = GetParameterValue(val1);
+                int int2 = GetParameterValue(val2);
 
                 if (op == ">")
                 {
