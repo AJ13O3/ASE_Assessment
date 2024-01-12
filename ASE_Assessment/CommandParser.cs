@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 //TO DO 
-// Get methods working
+// THREADS
 namespace ASE_Assessment
 {
     public class CommandParser
@@ -22,12 +22,16 @@ namespace ASE_Assessment
         public bool fillStatus = false;
         private PictureBox drawBox;
         private TextBox programBox;
+
         private Dictionary<string, int> variables = new Dictionary<string, int>();
+
         private bool ifBlock = false;
         private bool executeCommand = true;
+
         private bool loopBlock = false;
         private int loopCount = 0;
         private List<string> loopCommands = new List<string>();
+
         private UserMethod currentMethod;
         private Dictionary<string, UserMethod> userMethods = new Dictionary<string, UserMethod>();
 
@@ -48,6 +52,7 @@ namespace ASE_Assessment
                 // Start of a method definition
                 defineMethod(entry);
             }
+
             else if (entry.StartsWith("endmethod"))
             {
                 // End of a method definition
@@ -55,23 +60,24 @@ namespace ASE_Assessment
                 currentMethod = null;
 
             }
+
             else if (currentMethod != null)
             {
                 // Add commands to the current method definition
                 currentMethod.Commands.Add(entry);
             }
+
             else if (entry.Contains("("))
             {
                 int parenthesisIndex = entry.IndexOf('(');
                 string methodName = entry.Substring(0, parenthesisIndex).Trim();
-
-                
 
                 if (userMethods.ContainsKey(methodName))
                 {
                     callMethod(entry);
                 }
             }
+
             else if (entry.StartsWith("if"))
             {
                 ifBlock = true;
@@ -229,8 +235,8 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 string varName = parts[0];
 
-                if (parts.Length == 3) 
-                {    
+                if (parts.Length == 3)
+                {
                     int.TryParse(parts[2], out int varValue);
                     if (variables.ContainsKey(varName))
                     {
@@ -239,7 +245,7 @@ namespace ASE_Assessment
                     else
                     {
                         variables.Add(varName, varValue);
-                    }                                    
+                    }
                 }
 
                 else if (parts.Length > 3)
@@ -256,7 +262,7 @@ namespace ASE_Assessment
                     }
                     else
                     {
-                        int.TryParse(val1, out int1) ;
+                        int.TryParse(val1, out int1);
                     }
 
                     if (variables.ContainsKey(val2))
@@ -276,7 +282,7 @@ namespace ASE_Assessment
                     {
                         variables[varName] = int1 - int2;
                     }
-                    else if(op == "*")
+                    else if (op == "*")
                     {
                         variables[varName] = int1 * int2;
                     }
@@ -291,10 +297,11 @@ namespace ASE_Assessment
                 }
 
                 else
-                {                    
-                   throw new ArgumentException("Invalid parameters for expression");
+                {
+                    throw new ArgumentException("Invalid parameters for expression");
                 }
             }
+
             else if (entry.Length == 0)
             {
                 return;
@@ -305,7 +312,6 @@ namespace ASE_Assessment
                 throw new InvalidOperationException("Not a valid command");
             }
         }
-
 
         /// <summary>Changes the colour of the pen.</summary>
         /// <param name="colour">The colour.</param>
@@ -378,7 +384,7 @@ namespace ASE_Assessment
         /// <summary>Resets the pen to it's default position.</summary>
         private void reset()
         {
-            moveTo("10","10");
+            moveTo("10", "10");
             fillStatus = false;
         }
 
@@ -387,108 +393,49 @@ namespace ASE_Assessment
         /// <param name="height">The height of the rectangle.</param>
         private void drawRectangle(string width, string height)
         {
-            int widthVal, heightVal;
+            int widthVal = GetParameterValue(width);
+            int heightVal = GetParameterValue(height);
 
-            // Check if widthParameter is a variable and get its value
-            if (variables.ContainsKey(width))
-            {
-                widthVal = variables[width];
-            }
-            else if (!int.TryParse(width, out widthVal))
-            {
-                throw new ArgumentException("Invalid width parameter for rectangle command.");
-            }
-
-            // Check if heightParameter is a variable and get its value
-            if (variables.ContainsKey(height))
-            {
-                heightVal = variables[height];
-            }
-            else if (!int.TryParse(height, out heightVal))
-            {
-                throw new ArgumentException("Invalid height parameter for rectangle command.");
-            }
-
-            if (!fillStatus)
-            {
-                Pen pen = new Pen(currentPenColour);
-                g.DrawRectangle(pen, currentXLocation, currentYLocation, widthVal, heightVal);
-            }
-            else
-            {
-                Brush brush = new SolidBrush(currentPenColour);
-                g.FillRectangle(brush, currentXLocation, currentYLocation, widthVal, heightVal);
-            }
+            var rectangle = new Rectangle(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
+            rectangle.Draw(widthVal, heightVal);
         }
 
         /// <summary>Draws a circle.</summary>
         /// <param name="radius">The radius of the circle.</param>
-        private void drawCircle(string radius)
+        private void drawCircle(string radiusParameter)
         {
-            int radiusVal;
-
-            if (variables.ContainsKey(radius))
-            {
-                radiusVal = variables[radius];
-            }
-            else if (!int.TryParse (radius, out radiusVal))
-            {
-                throw new ArgumentException("Invalid height parameter for rectangle command.");
-            }
-            if (!fillStatus)
-            {
-                Pen pen = new Pen(currentPenColour);
-                g.DrawEllipse(pen, currentXLocation, currentYLocation, radiusVal * 2, radiusVal * 2);
-            }
-            else
-            {
-                Brush brush = new SolidBrush(currentPenColour);
-                g.FillEllipse(brush, currentXLocation, currentYLocation, radiusVal * 2, radiusVal * 2);
-            }
-
+            int radius = GetParameterValue(radiusParameter);
+            var circle = new Circle(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
+            circle.Draw(radius);
         }
 
         /// <summary>Draws a triangle.</summary>
         /// <param name="baseLength">Length of the base.</param>
         /// <param name="height">The height of the triangle.</param>
-        private void drawTriangle(string baseLength, string height)
+        private void drawTriangle(string baseLengthParameter, string heightParameter)
         {
-            int baseLengthVal, heightVal;
-            if (variables.ContainsKey(baseLength))
-            {
-                baseLengthVal = variables[baseLength];
-            }
-            else if (!int.TryParse(baseLength, out baseLengthVal))
-            {
-                
-            }
-            if (variables.ContainsKey(height))
-            {
-                heightVal = variables[height];
-            }
-            else if (!int.TryParse(height, out heightVal))
-            {
+            int baseLength = GetParameterValue(baseLengthParameter);
+            int height = GetParameterValue(heightParameter);
+            var triangle = new Triangle(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
+            triangle.Draw(baseLength, height);
+        }
 
-            }
-            Point p1 = new Point(currentXLocation, currentYLocation);
-            Point p2 = new Point(currentXLocation + baseLengthVal, currentYLocation);
-            Point p3 = new Point(currentXLocation + (baseLengthVal / 2), currentYLocation - heightVal);
-
-            Point[] shapePoints = { p1, p2, p3 };
-
-           
-
-            if (!fillStatus)
+        private int GetParameterValue(string parameter)
+        {
+            // Check if the parameter is a variable name in the dictionary
+            if (variables.TryGetValue(parameter, out int value))
             {
-                Pen pen = new Pen(currentPenColour);
-                g.DrawPolygon(pen, shapePoints);
-            }
-            else
-            {
-                Brush brush = new SolidBrush(currentPenColour);
-                g.FillPolygon(brush, shapePoints);
+                return value;
             }
 
+            // If not a variable, try parsing the parameter as an integer
+            if (int.TryParse(parameter, out int parsedValue))
+            {
+                return parsedValue;
+            }
+
+            // If the parameter is neither a variable nor an integer, throw an exception
+            throw new ArgumentException($"Invalid parameter: {parameter}");
         }
 
         /// <summary>Set the fill mode to on.</summary>
@@ -502,6 +449,7 @@ namespace ASE_Assessment
         {
             fillStatus = false;
         }
+
         private bool evaluateCondition(string condition)
         {
             // Evaluate the condition expression (eg count > size)
@@ -573,14 +521,24 @@ namespace ASE_Assessment
         private void defineMethod(string definition)
         {
             var parts = definition.Split(" ");
+
             var methodName = parts[1]; // Get the method name                                       
             var parametersPart = definition.Substring(definition.IndexOf('(') + 1);// Extracting the parameter list
             parametersPart = parametersPart.Substring(0, parametersPart.IndexOf(')')).Trim();
-            var parameters = parametersPart.Split(',').Select(p => p.Trim()).ToList();
+
+            List<string> parameters;
+            if (!string.IsNullOrEmpty(parametersPart))
+            {
+                parameters = parametersPart.Split(',').Select(p => p.Trim()).ToList();
+            }
+            else
+            {
+                parameters = new List<string>(); // No parameters
+            }
 
             if (userMethods.ContainsKey(methodName))
             {
-               throw new ArgumentException($"A method with the name '{methodName}' already exists.");
+                throw new ArgumentException($"A method with the name '{methodName}' already exists.");
             }
             currentMethod = new UserMethod
             {
@@ -588,20 +546,19 @@ namespace ASE_Assessment
             };
 
             userMethods.Add(methodName, currentMethod);// Store the method definition
-            
+
         }
-        private void callMethod(string invocation)
+
+        private void callMethod(string call)
         {
             // Split the invocation into the method name and arguments
-            
-            var parts = invocation.Split(" ");
+
+            var parts = call.Split(" ");
 
             var methodName = parts[0].Trim();
 
-            var arguments = invocation.Substring(invocation.IndexOf('(') + 1);// Extracting the arguments list
+            var arguments = call.Substring(call.IndexOf('(') + 1);// Extracting the arguments list
             arguments = arguments.Substring(0, arguments.IndexOf(')')).Trim();
-
-            Debug.WriteLine(arguments);
 
             var argVals = parts.Length > 1 ? arguments.Split(',') : new string[0];
 
@@ -612,11 +569,19 @@ namespace ASE_Assessment
                 foreach (var command in method.Commands)
                 {
                     var processedCommand = command;
-                    for (int i = 0; i < method.Parameters.Count; i++)
+                    if (argVals.Length > 0)
                     {
-                        processedCommand = processedCommand.Replace(method.Parameters[i], argVals.Length > i ? argVals[i].Trim() : "");
+                        for (int i = 0; i < method.Parameters.Count; i++)
+                        {
+                            processedCommand = processedCommand.Replace(method.Parameters[i], argVals.Length > i ? argVals[i].Trim() : "");
+                        }
+                        processCommand(processedCommand); // Execute the command
                     }
-                    processCommand(processedCommand); // Execute the command
+                    else
+                    {
+                        processCommand(processedCommand);
+                    }
+
                 }
             }
             else
@@ -624,7 +589,7 @@ namespace ASE_Assessment
                 // Handle the case when the method is not found
                 throw new ArgumentException($"Method '{methodName}' not defined.");
             }
-            
+
         }
 
     }
