@@ -131,7 +131,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for rectangle command.");
+                    throw new ArgumentException($"Invalid parameters for rectangle command: {entry}");
                 }
             }
 
@@ -145,7 +145,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for circle command.");
+                    throw new ArgumentException($"Invalid parameters for circle command: {entry}");
                 }
             }
 
@@ -159,7 +159,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for triangle command.");
+                    throw new ArgumentException($"Invalid parameters for triangle command: {entry}");
                 }
             }
 
@@ -173,7 +173,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for moveTo command.");
+                    throw new ArgumentException($"Invalid parameters for moveTo command: {entry}");
                 }
             }
 
@@ -186,7 +186,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for drawTo command.");
+                    throw new ArgumentException($"Invalid parameters for drawTo command: {entry}");
                 }
             }
 
@@ -250,55 +250,33 @@ namespace ASE_Assessment
 
                 else if (parts.Length > 3)
                 {
-                    string val1 = parts[2];
-                    int int1 = 0;
+                    int int1 = GetParameterValue(parts[2]);
                     string op = parts[3];
-                    string val2 = parts[4];
-                    int int2 = 0;
+                    int int2 = GetParameterValue(parts[4]);
+                    
+                    switch (op) // found this in w3 schools
+                    {
+                        case "+":
+                            variables[varName] = int1 + int2;
+                            break;
+                        case "-":
+                            variables[varName] = int1 - int2;
+                            break;
+                        case "*":
+                            variables[varName] = int1 * int2;
+                            break;
+                        case "/":
+                            variables[varName] = int1 / int2;
+                            break;
+                        default:
+                            throw new ArgumentException($"Invalid operation: {op}");
+                    }
 
-                    if (variables.ContainsKey(val1))
-                    {
-                        int1 = variables[val1];
-                    }
-                    else
-                    {
-                        int.TryParse(val1, out int1);
-                    }
-
-                    if (variables.ContainsKey(val2))
-                    {
-                        int2 = variables[val2];
-                    }
-                    else
-                    {
-                        int.TryParse(val2, out int2);
-                    }
-
-                    if (op == "+")
-                    {
-                        variables[varName] = int1 + int2;
-                    }
-                    else if (op == "-")
-                    {
-                        variables[varName] = int1 - int2;
-                    }
-                    else if (op == "*")
-                    {
-                        variables[varName] = int1 * int2;
-                    }
-                    else if (op == "/")
-                    {
-                        variables[varName] = int1 / int2;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("Invalid parameters for expression");
-                    }
                 }
 
                 else
                 {
-                    throw new ArgumentException("Invalid parameters for expression");
+                    throw new ArgumentException($"Invalid parameters for expression:{entry}");
                 }
             }
 
@@ -309,7 +287,7 @@ namespace ASE_Assessment
 
             else
             {
-                throw new InvalidOperationException("Not a valid command");
+                throw new InvalidOperationException($"Not a valid command: {entry}");
             }
         }
 
@@ -394,7 +372,7 @@ namespace ASE_Assessment
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException($"Parameter value cannot be negative: {parameter}");
+                    throw new ArgumentException($"Parameter value cannot be negative: {value}");
                 }
                 return value;
             }
@@ -404,7 +382,7 @@ namespace ASE_Assessment
             {
                 if (parsedValue < 0)
                 {
-                    throw new ArgumentException($"Parameter value cannot be negative: {parameter}");
+                    throw new ArgumentException($"Parameter value cannot be negative: {parsedValue}");
                 }
                 return parsedValue;
             }
@@ -510,7 +488,7 @@ namespace ASE_Assessment
             // Check if the method exists
             if (userMethods.TryGetValue(methodName, out var method))
             {
-                // Replace parameters with actual arguments and execute the method
+                // Replace parameters with actual arguments
                 foreach (var command in method.Commands)
                 {
                     var processedCommand = command;
