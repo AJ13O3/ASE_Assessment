@@ -437,35 +437,23 @@ namespace ASE_Assessment
                 string val2 = parts[2];
                 int int1 = GetParameterValue(val1);
                 int int2 = GetParameterValue(val2);
-
-                if (op == ">")
+                
+                switch (op) // found this in w3 schools
                 {
-                    return int1 > int2;
-                }
-                else if (op == "<")
-                {
-                    return int1 < int2;
-                }
-                else if (op == "<=")
-                {
-                    return int1 <= int2;
-                }
-                else if (op == "=>")
-                {
-                    return int1 >= int2;
-                }
-                else if (op == "==")
-                {
-                    return int1 == int2;
-                }
-                else if (op == "!=")
-                {
-                    return int1 != int2;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid parameters for if condition");
-
+                    case ">":
+                        return int1 > int2;
+                    case "<":
+                        return int1 < int2;
+                    case "<=":
+                        return int1 <= int2;
+                    case "=>":
+                        return int1 >= int2;
+                    case "==":
+                        return int1 == int2;
+                    case "!=":
+                        return int1 != int2;
+                    default:
+                        throw new ArgumentException("Invalid operator in condition");
                 }
 
             }
