@@ -46,7 +46,7 @@ namespace ASE_Assessment
         {
             entry = entry.ToLower();
             entry = entry.Trim();
-
+           
             if (entry.StartsWith("method"))
             {
                 // Start of a method definition
@@ -314,6 +314,7 @@ namespace ASE_Assessment
                 }
 
             }
+
             else if (entry == "endmethod")
             {
                 // Check if there is a current method context that is being ended
@@ -327,39 +328,80 @@ namespace ASE_Assessment
             else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("move") || entry.StartsWith("drawto"))
             {
                 string[] parts = entry.Split(' ');
+
                 // Get parameter values of parts
                 for (int i = 1; i < parts.Length; i++)
                 {
-                    int parameterValue = GetParameterValue(parts[i]);
+                    var parameterValue = GetParameterValue(parts[i]);
                     if (parameterValue <= 0)
                     {
                         throw new CommandException($"Invalid parameter for {parts[0]} command: {parts[i]}");
                     }
+                    
                 }                
             }
+
             else if (entry.Contains("="))
             {
                 string[] parts = entry.Split(' ');
-                if (parts.Length < 3 || string.IsNullOrWhiteSpace(parts[0]))
+                string varName = parts[0];
+                string expression = parts[1].Trim();
+
+                if (parts.Length == 3)
+                {
+                    int.TryParse(parts[2], out int varValue);
+                    if (variables.ContainsKey(varName))
+                    {
+                        variables[varName] = varValue;
+                    }
+                    else
+                    {
+                        variables.Add(varName, varValue);
+                    }
+                }
+
+                else if (parts.Length > 3)
+                {
+                    int int1 = GetParameterValue(parts[2]);
+                    string op = parts[3];
+                    int int2 = GetParameterValue(parts[4]);
+
+                    switch (op) // found this in w3 schools
+                    {
+                        case "+":
+                            variables[varName] = int1 + int2;
+                            break;
+                        case "-":
+                            variables[varName] = int1 - int2;
+                            break;
+                        case "*":
+                            variables[varName] = int1 * int2;
+                            break;
+                        case "/":
+                            variables[varName] = int1 / int2;
+                            break;
+                        default:
+                            throw new CommandException($"Invalid operation: {op}");
+                    }
+
+                }
+                else
                 {
                     throw new CommandException($"Invalid syntax for assignment: {entry}");
                 }
-
-                string variableName = parts[0].Trim();
-
-                // Check if it's a valid expression if it's a valid number or existing variable
-                string expression = parts[3].Trim();
-
-                if (!int.TryParse(expression, out _) && !variables.ContainsKey(expression))
-                {
-                    throw new CommandException($"Invalid expression in assignment: {entry}");
-                }
-
             }
+
+            else if (entry.Length == 0)
+            {
+                return;
+            }
+
             else
             {
-                throw new CommandException($"Unsupported or invalid command: {entry}");
+                throw new CommandException($"Invalid command: {entry}");
             }
+
+
         }
         /// <summary>Changes the colour of the pen.</summary>
         /// <param name="colour">The colour.</param>
@@ -437,6 +479,7 @@ namespace ASE_Assessment
 
         private int GetParameterValue(string parameter)
         {
+            parameter = parameter.Trim();
             // Check if the parameter is a variable name in the dictionary
             if (variables.TryGetValue(parameter, out int value))
             {

@@ -35,6 +35,7 @@
             openButton = new Button();
             saveButton = new Button();
             label1 = new Label();
+            VerifyButton = new Button();
             ((System.ComponentModel.ISupportInitialize)drawBox).BeginInit();
             SuspendLayout();
             // 
@@ -107,11 +108,23 @@
             label1.Size = new Size(100, 23);
             label1.TabIndex = 0;
             // 
+            // VerifyButton
+            // 
+            VerifyButton.Location = new Point(93, 385);
+            VerifyButton.Name = "VerifyButton";
+            VerifyButton.Size = new Size(75, 23);
+            VerifyButton.TabIndex = 6;
+            VerifyButton.TabStop = false;
+            VerifyButton.Text = "Verify";
+            VerifyButton.UseVisualStyleBackColor = true;
+            VerifyButton.Click += VerifyButton_Click;
+            // 
             // GraphicsLanguage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(VerifyButton);
             Controls.Add(label1);
             Controls.Add(saveButton);
             Controls.Add(openButton);
@@ -135,5 +148,6 @@
         private Button openButton;
         private Button saveButton;
         private Label label1;
+        private Button VerifyButton;
     }
 }

@@ -35,9 +35,9 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    foreach (string n in programBox.Lines)
+                    foreach (string line in programBox.Lines)
                     {
-                        commandParser.ProcessCommand(n);
+                        commandParser.ProcessCommand(line);
                     }
                 }
             }
@@ -113,6 +113,22 @@ namespace ASE_Assessment
                 // Prevent the default behavior of the Tab key
             }
 
+        }
+
+        private void VerifyButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                foreach (string line in programBox.Lines)
+                {
+                    commandParser.VerifyCommand(line);
+                }
+                MessageBox.Show("No errors found.", "Verification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (CommandException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 
