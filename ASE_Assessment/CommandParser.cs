@@ -291,6 +291,76 @@ namespace ASE_Assessment
             }
         }
 
+        public void VerifyCommand(string entry)
+        {
+            entry = entry.ToLower();
+            entry = entry.Trim();
+
+            if (entry.StartsWith("method"))
+            {
+                string[] parts = entry.Split(' ');
+                if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[1]))
+                {
+                    throw new CommandException($"Invalid method name: {entry}");
+                }
+                else if (userMethods.ContainsKey(parts[1]))
+                {
+                    throw new CommandException($"Method '{parts[1]}' is already defined.");
+                }
+
+                else if (!(parts[2].Contains("(") && parts[2].Contains(")"))) 
+                {
+                    throw new CommandException($"Method '{parts[1]}' needs brackets around parameters.");  
+                }
+
+            }
+            else if (entry == "endmethod")
+            {
+                // Check if there is a current method context that is being ended
+                if (currentMethod == null)
+                {
+                    throw new CommandException("'Endmethod' command without a corresponding method start.");
+                }
+                currentMethod = null; // Reset the current method context
+            }
+            
+            else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("move") || entry.StartsWith("drawto"))
+            {
+                string[] parts = entry.Split(' ');
+                // Get parameter values of parts
+                for (int i = 1; i < parts.Length; i++)
+                {
+                    int parameterValue = GetParameterValue(parts[i]);
+                    if (parameterValue <= 0)
+                    {
+                        throw new CommandException($"Invalid parameter for {parts[0]} command: {parts[i]}");
+                    }
+                }                
+            }
+            else if (entry.Contains("="))
+            {
+                string[] parts = entry.Split(' ');
+                if (parts.Length < 3 || string.IsNullOrWhiteSpace(parts[0]))
+                {
+                    throw new CommandException($"Invalid syntax for assignment: {entry}");
+                }
+
+                string variableName = parts[0].Trim();
+
+                // Check if it's a valid expression if it's a valid number or existing variable
+                string expression = parts[3].Trim();
+
+                if (!int.TryParse(expression, out _) && !variables.ContainsKey(expression))
+                {
+                    throw new CommandException($"Invalid expression in assignment: {entry}");
+                }
+
+            }
+            else
+            {
+                throw new CommandException($"Unsupported or invalid command: {entry}");
+            }
+        }
         /// <summary>Changes the colour of the pen.</summary>
         /// <param name="colour">The colour.</param>
         private void PenColour(Color colour)
