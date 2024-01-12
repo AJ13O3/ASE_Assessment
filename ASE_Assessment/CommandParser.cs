@@ -42,7 +42,7 @@ namespace ASE_Assessment
             this.programBox = programBox;
         }
 
-        public void processCommand(string entry)
+        public void ProcessCommand(string entry)
         {
             entry = entry.ToLower();
             entry = entry.Trim();
@@ -50,7 +50,7 @@ namespace ASE_Assessment
             if (entry.StartsWith("method"))
             {
                 // Start of a method definition
-                defineMethod(entry);
+                DefineMethod(entry);
             }
 
             else if (entry.StartsWith("endmethod"))
@@ -74,14 +74,14 @@ namespace ASE_Assessment
 
                 if (userMethods.ContainsKey(methodName))
                 {
-                    callMethod(entry);
+                    CallMethod(entry);
                 }
             }
 
             else if (entry.StartsWith("if"))
             {
                 ifBlock = true;
-                executeCommand = evaluateCondition(entry.Substring(3));
+                executeCommand = EvaluateCondition(entry.Substring(3));
             }
 
             else if (entry == "endif")
@@ -110,7 +110,7 @@ namespace ASE_Assessment
                 {
                     foreach (string command in loopCommands)
                     {
-                        processCommand(command);
+                        ProcessCommand(command);
                     }
                 }
                 loopCommands.Clear();
@@ -127,7 +127,7 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3)
                 {
-                    drawRectangle(parts[1], parts[2]);
+                    DrawRectangle(parts[1], parts[2]);
                 }
                 else
                 {
@@ -141,7 +141,7 @@ namespace ASE_Assessment
 
                 if (parts.Length == 2)
                 {
-                    drawCircle(parts[1]);
+                    DrawCircle(parts[1]);
                 }
                 else
                 {
@@ -155,7 +155,7 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3)
                 {
-                    drawTriangle(parts[1], parts[2]);
+                    DrawTriangle(parts[1], parts[2]);
                 }
                 else
                 {
@@ -169,7 +169,7 @@ namespace ASE_Assessment
 
                 if (parts.Length == 3)
                 {
-                    moveTo(parts[1], parts[2]);
+                    MoveTo(parts[1], parts[2]);
                 }
                 else
                 {
@@ -182,7 +182,7 @@ namespace ASE_Assessment
                 string[] parts = entry.Split(' ');
                 if (parts.Length == 3)
                 {
-                    drawTo(parts[1], parts[2]);
+                    DrawTo(parts[1], parts[2]);
                 }
                 else
                 {
@@ -192,39 +192,39 @@ namespace ASE_Assessment
 
             else if (entry == "reset")
             {
-                reset();
+                Reset();
             }
 
             else if (entry == "red pen")
             {
-                penColour(Color.Red);
+                PenColour(Color.Red);
             }
 
             else if (entry == "blue pen")
             {
-                penColour(Color.Blue);
+                PenColour(Color.Blue);
             }
 
             else if (entry == "green pen")
             {
-                penColour(Color.Green);
+                PenColour(Color.Green);
             }
 
             else if (entry == "fill on")
             {
-                fillOn();
+                FillOn();
             }
 
             else if (entry == "fill off")
             {
-                fillOff();
+                FillOff();
             }
 
             else if (entry.Contains("run"))
             {
                 foreach (string n in programBox.Lines)
                 {
-                    processCommand(n);
+                    ProcessCommand(n);
                 }
 
 
@@ -315,7 +315,7 @@ namespace ASE_Assessment
 
         /// <summary>Changes the colour of the pen.</summary>
         /// <param name="colour">The colour.</param>
-        private void penColour(Color colour)
+        private void PenColour(Color colour)
         {
             currentPenColour = colour;
         }
@@ -323,7 +323,7 @@ namespace ASE_Assessment
         /// <summary>Moves to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
-        private void moveTo(string x, string y)
+        private void MoveTo(string x, string y)
         {
             int xVal, yVal;
 
@@ -352,7 +352,7 @@ namespace ASE_Assessment
         /// <summary>Draws to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
-        private void drawTo(string x, string y)
+        private void DrawTo(string x, string y)
         {
             int xVal, yVal;
 
@@ -382,16 +382,16 @@ namespace ASE_Assessment
         }
 
         /// <summary>Resets the pen to it's default position.</summary>
-        private void reset()
+        private void Reset()
         {
-            moveTo("10", "10");
+            MoveTo("10", "10");
             fillStatus = false;
         }
 
         /// <summary>Draws a rectangle.</summary>
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
-        private void drawRectangle(string width, string height)
+        private void DrawRectangle(string width, string height)
         {
             int widthVal = GetParameterValue(width);
             int heightVal = GetParameterValue(height);
@@ -402,7 +402,7 @@ namespace ASE_Assessment
 
         /// <summary>Draws a circle.</summary>
         /// <param name="radius">The radius of the circle.</param>
-        private void drawCircle(string radiusParameter)
+        private void DrawCircle(string radiusParameter)
         {
             int radius = GetParameterValue(radiusParameter);
             var circle = new Circle(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
@@ -412,7 +412,7 @@ namespace ASE_Assessment
         /// <summary>Draws a triangle.</summary>
         /// <param name="baseLength">Length of the base.</param>
         /// <param name="height">The height of the triangle.</param>
-        private void drawTriangle(string baseLengthParameter, string heightParameter)
+        private void DrawTriangle(string baseLengthParameter, string heightParameter)
         {
             int baseLength = GetParameterValue(baseLengthParameter);
             int height = GetParameterValue(heightParameter);
@@ -439,18 +439,18 @@ namespace ASE_Assessment
         }
 
         /// <summary>Set the fill mode to on.</summary>
-        private void fillOn()
+        private void FillOn()
         {
             fillStatus = true;
         }
 
         /// <summary>Set the fill mode to off.</summary>
-        private void fillOff()
+        private void FillOff()
         {
             fillStatus = false;
         }
 
-        private bool evaluateCondition(string condition)
+        private bool EvaluateCondition(string condition)
         {
             // Evaluate the condition expression (eg count > size)
             string[] parts = condition.Split(" ");
@@ -518,7 +518,7 @@ namespace ASE_Assessment
             }
         }
 
-        private void defineMethod(string definition)
+        private void DefineMethod(string definition)
         {
             var parts = definition.Split(" ");
 
@@ -549,7 +549,7 @@ namespace ASE_Assessment
 
         }
 
-        private void callMethod(string call)
+        private void CallMethod(string call)
         {
             // Split the invocation into the method name and arguments
 
@@ -575,11 +575,11 @@ namespace ASE_Assessment
                         {
                             processedCommand = processedCommand.Replace(method.Parameters[i], argVals.Length > i ? argVals[i].Trim() : "");
                         }
-                        processCommand(processedCommand); // Execute the command
+                        ProcessCommand(processedCommand); // Execute the command
                     }
                     else
                     {
-                        processCommand(processedCommand);
+                        ProcessCommand(processedCommand);
                     }
 
                 }

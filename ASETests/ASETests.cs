@@ -22,7 +22,7 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Act
-            parser.processCommand("moveTo "+newXLocation+ " " +newYLocation);
+            parser.ProcessCommand("moveTo "+newXLocation+ " " +newYLocation);
 
             // Assert
             Assert.AreEqual(newXLocation, parser.currentXLocation, "X location not updated correctly");
@@ -42,7 +42,7 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand("moveTo " + newXLocation + " " + newYLocation);
+                parser.ProcessCommand("moveTo " + newXLocation + " " + newYLocation);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
             catch (ArgumentException)
@@ -68,10 +68,10 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Starting position
-            parser.processCommand("moveTo " + startX + " " + startY);
+            parser.ProcessCommand("moveTo " + startX + " " + startY);
 
             // Act
-            parser.processCommand("drawTo " + endX + " " + endY);
+            parser.ProcessCommand("drawTo " + endX + " " + endY);
 
             // Assert
 
@@ -95,8 +95,8 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand("moveTo " + startX + " " + startY);
-                parser.processCommand("drawTo " + endX + " " + endY);
+                parser.ProcessCommand("moveTo " + startX + " " + startY);
+                parser.ProcessCommand("drawTo " + endX + " " + endY);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
             catch (ArgumentException)
@@ -122,10 +122,10 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Starting position
-            parser.processCommand("moveTo " + startX + " " + startY);
+            parser.ProcessCommand("moveTo " + startX + " " + startY);
 
             // Act
-            parser.processCommand("reset");
+            parser.ProcessCommand("reset");
 
             // Assert
 
@@ -146,7 +146,7 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand("rectangle " + width + " " + height);
+                parser.ProcessCommand("rectangle " + width + " " + height);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
             catch (ArgumentException)
@@ -170,7 +170,7 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand("circle " + radius);
+                parser.ProcessCommand("circle " + radius);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
             catch (ArgumentException)
@@ -195,7 +195,7 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand("triangle " + baseLength + " " + height);
+                parser.ProcessCommand("triangle " + baseLength + " " + height);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
             catch (ArgumentException)
@@ -217,7 +217,7 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Act
-            parser.processCommand("fill on");
+            parser.ProcessCommand("fill on");
 
             // Assert
             Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
@@ -232,8 +232,8 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Act
-            parser.processCommand("fill on");
-            parser.processCommand("fill off");
+            parser.ProcessCommand("fill on");
+            parser.ProcessCommand("fill off");
 
             // Assert
             Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
@@ -248,7 +248,7 @@ namespace ASETests
             CommandParser parser = new CommandParser(pictureBox, programBox);
 
             // Act
-            parser.processCommand("green pen");
+            parser.ProcessCommand("green pen");
 
             // Assert
             Assert.AreEqual(newPenColour, parser.currentPenColour, "Pen colour not updated correctly");
@@ -265,7 +265,7 @@ namespace ASETests
             // Act & Assert
             try
             {
-                parser.processCommand(command);
+                parser.ProcessCommand(command);
                 Assert.Fail("Expected an InvalidOperationException to be thrown");
             }
             catch (InvalidOperationException)

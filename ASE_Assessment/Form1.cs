@@ -28,14 +28,14 @@ namespace ASE_Assessment
         {
             if (commandLine.Text.Length > 0)
             {
-                commandParser.processCommand(commandLine.Text);
+                commandParser.ProcessCommand(commandLine.Text);
                 commandLine.Text = null;
             }
             else
             {
                 foreach (string n in programBox.Lines)
                 {
-                    commandParser.processCommand(n);
+                    commandParser.ProcessCommand(n);
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace ASE_Assessment
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                commandParser.processCommand(commandLine.Text);
+                commandParser.ProcessCommand(commandLine.Text);
                 commandLine.Text = null;
             }
         }
