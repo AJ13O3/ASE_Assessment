@@ -131,7 +131,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for rectangle command: {entry}");
+                    throw new CommandException($"Invalid parameters for rectangle command: {entry}");
                 }
             }
 
@@ -145,7 +145,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for circle command: {entry}");
+                    throw new CommandException($"Invalid parameters for circle command: {entry}");
                 }
             }
 
@@ -159,7 +159,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for triangle command: {entry}");
+                    throw new CommandException($"Invalid parameters for triangle command: {entry}");
                 }
             }
 
@@ -173,7 +173,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for moveTo command: {entry}");
+                    throw new CommandException($"Invalid parameters for moveTo command: {entry}");
                 }
             }
 
@@ -186,7 +186,7 @@ namespace ASE_Assessment
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for drawTo command: {entry}");
+                    throw new CommandException($"Invalid parameters for drawTo command: {entry}");
                 }
             }
 
@@ -269,14 +269,14 @@ namespace ASE_Assessment
                             variables[varName] = int1 / int2;
                             break;
                         default:
-                            throw new ArgumentException($"Invalid operation: {op}");
+                            throw new CommandException($"Invalid operation: {op}");
                     }
 
                 }
 
                 else
                 {
-                    throw new ArgumentException($"Invalid parameters for expression:{entry}");
+                    throw new CommandException($"Invalid parameters for expression:{entry}");
                 }
             }
 
@@ -287,7 +287,7 @@ namespace ASE_Assessment
 
             else
             {
-                throw new InvalidOperationException($"Not a valid command: {entry}");
+                throw new CommandException($"Not a valid command: {entry}");
             }
         }
 
@@ -372,7 +372,7 @@ namespace ASE_Assessment
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException($"Parameter value cannot be negative: {value}");
+                    throw new CommandException($"Parameter value cannot be negative: {value}");
                 }
                 return value;
             }
@@ -382,13 +382,13 @@ namespace ASE_Assessment
             {
                 if (parsedValue < 0)
                 {
-                    throw new ArgumentException($"Parameter value cannot be negative: {parsedValue}");
+                    throw new CommandException($"Parameter value cannot be negative: {parsedValue}");
                 }
                 return parsedValue;
             }
 
             // If the parameter is neither a variable nor an integer, throw an exception
-            throw new ArgumentException($"Invalid parameter: {parameter}");
+            throw new CommandException($"Invalid parameter: {parameter}");
         }
 
         /// <summary>Set the fill mode to on.</summary>
@@ -431,13 +431,13 @@ namespace ASE_Assessment
                     case "!=":
                         return int1 != int2;
                     default:
-                        throw new ArgumentException("Invalid operator in condition");
+                        throw new CommandException("Invalid operator in condition");
                 }
 
             }
             else
             {
-                throw new ArgumentException("Invalid parameters for if condition");
+                throw new CommandException("Invalid parameters for if condition");
             }
         }
 
@@ -461,7 +461,7 @@ namespace ASE_Assessment
 
             if (userMethods.ContainsKey(methodName))
             {
-                throw new ArgumentException($"A method with the name '{methodName}' already exists.");
+                throw new CommandException($"A method with the name '{methodName}' already exists.");
             }
             currentMethod = new UserMethod
             {
@@ -510,7 +510,7 @@ namespace ASE_Assessment
             else
             {
                 // Handle the case when the method is not found
-                throw new ArgumentException($"Method '{methodName}' not defined.");
+                throw new CommandException($"Method '{methodName}' not defined.");
             }
 
         }

@@ -26,17 +26,24 @@ namespace ASE_Assessment
 
         private void runButton_Click(object sender, EventArgs e)
         {
-            if (commandLine.Text.Length > 0)
+            try
             {
-                commandParser.ProcessCommand(commandLine.Text);
-                commandLine.Text = null;
-            }
-            else
-            {
-                foreach (string n in programBox.Lines)
+                if (commandLine.Text.Length > 0)
                 {
-                    commandParser.ProcessCommand(n);
+                    commandParser.ProcessCommand(commandLine.Text);
+                    commandLine.Text = "";
                 }
+                else
+                {
+                    foreach (string n in programBox.Lines)
+                    {
+                        commandParser.ProcessCommand(n);
+                    }
+                }
+            }
+            catch (CommandException ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -44,8 +51,15 @@ namespace ASE_Assessment
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                commandParser.ProcessCommand(commandLine.Text);
-                commandLine.Text = null;
+                try
+                {
+                    commandParser.ProcessCommand(commandLine.Text);
+                    commandLine.Text = "";
+                }
+                catch (CommandException ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
