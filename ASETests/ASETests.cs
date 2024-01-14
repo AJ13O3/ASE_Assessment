@@ -1,3 +1,16 @@
+// ***********************************************************************
+// Assembly         : ASETests
+// Author           : amanj
+// Created          : 11-13-2023
+//
+// Last Modified By : amanj
+// Last Modified On : 01-14-2024
+// ***********************************************************************
+// <copyright file="ASETests.cs" company="ASETests">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using ASE_Assessment;
 using System.Drawing;
 using System.Drawing.Text;
@@ -7,10 +20,16 @@ using static System.Windows.Forms.AxHost;
 namespace ASETests
 
 {
+    /// <summary>
+    /// Defines test class ASETests.
+    /// </summary>
     [TestClass]
     public class ASETests
     {
 
+        /// <summary>
+        /// Defines the test for the moveto command with a valid input.
+        /// </summary>
         [TestMethod]
         public void TestMoveToCommand()
         {
@@ -29,6 +48,9 @@ namespace ASETests
             Assert.AreEqual(newYLocation, parser.currentYLocation, "Y location not updated correctly");
         }
 
+        /// <summary>
+        ///  Defines the test for the moveto command with an invalid input.
+        /// </summary>
         [TestMethod]
         public void TestMoveToNegative()
         {
@@ -55,6 +77,9 @@ namespace ASETests
             }
         }
 
+        /// <summary>
+        /// Defines the test for the drawto command with a valid input.
+        /// </summary>
         [TestMethod]
         public void TestDrawToCommand()
         {
@@ -80,6 +105,9 @@ namespace ASETests
 
         }
 
+        /// <summary>
+        /// Defines the test for the drawto command with an invalid input.
+        /// </summary>
         [TestMethod]
         public void TestDrawToNegative()
         {
@@ -109,6 +137,9 @@ namespace ASETests
             }
         }
 
+        /// <summary>
+        /// Defines the test for the Reset Command.
+        /// </summary>
         [TestMethod]
         public void TestResetCommand()
         {
@@ -133,6 +164,10 @@ namespace ASETests
             Assert.AreEqual(endY, parser.currentYLocation, "Y location not updated correctly after reset");
 
         }
+
+        /// <summary>
+        /// Defines the test for the DrawRectangle command.
+        /// </summary>
         [TestMethod]
         public void TestDrawRectangle()
         {
@@ -158,6 +193,10 @@ namespace ASETests
                 Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
+
+        /// <summary>
+        /// Defines the test for the DrawCircle commnand.
+        /// </summary>
         [TestMethod]
         public void TestDrawCircle()
         {
@@ -182,6 +221,10 @@ namespace ASETests
                 Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
+
+        /// <summary>
+        /// Defines the test for the DrawTriangle command.
+        /// </summary>
         [TestMethod]
         public void TestDrawTriangle()
         {
@@ -207,6 +250,10 @@ namespace ASETests
                 Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
+
+        /// <summary>
+        /// Defines the test for the FillOn command.
+        /// </summary>
         [TestMethod]
         public void TestFillOn()
         {
@@ -222,6 +269,10 @@ namespace ASETests
             // Assert
             Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
         }
+
+        /// <summary>
+        /// Defines the test for the FillOff command.
+        /// </summary>
         [TestMethod]
         public void TestFillOff()
         {
@@ -238,8 +289,12 @@ namespace ASETests
             // Assert
             Assert.AreEqual(newFillStatus, parser.fillStatus, "Fill status not updated correctly");
         }
+
+        /// <summary>
+        /// Defines the test for the pen colour feature.
+        /// </summary>
         [TestMethod]
-        public void TestPen()
+        public void TestPenColour()
         {
             // Arrange
             Color newPenColour = Color.Green;
@@ -253,6 +308,10 @@ namespace ASETests
             // Assert
             Assert.AreEqual(newPenColour, parser.currentPenColour, "Pen colour not updated correctly");
         }
+
+        /// <summary>
+        /// Defines the test for an invalid command.
+        /// </summary>
         [TestMethod]
         public void TestInvalidCommand () 
         {
@@ -277,6 +336,10 @@ namespace ASETests
                 Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
+
+        /// <summary>
+        /// Defines the test for declaring and modifying variables.
+        /// </summary>
         [TestMethod]
         public void TestVariableDeclarationAndModification()
         {
@@ -293,6 +356,10 @@ namespace ASETests
             Assert.IsTrue(parser.variables.ContainsKey("x"), "Variable was not declared.");
             Assert.AreEqual(20, parser.variables["x"], "Variable value was not modified correctly.");
         }
+
+        /// <summary>
+        /// Defines the test for processing expressions in the variable declaration.
+        /// </summary>
         [TestMethod]
         public void TestVariableExpression()
         {
@@ -308,6 +375,10 @@ namespace ASETests
             // Assert
             Assert.AreEqual(30, parser.variables["x"], "Variable value was not modified correctly.");
         }
+
+        /// <summary>
+        /// Defines the test for if statements.
+        /// </summary>
         [TestMethod]
         public void TestIfStatementExecution()
         {
@@ -329,6 +400,10 @@ namespace ASETests
                 Assert.Fail("Did not expect an CommandException to be thrown");
             }
         }
+
+        /// <summary>
+        /// Defines the test for the loop command.
+        /// </summary>
         [TestMethod]
         public void TestLoop()
         {
@@ -346,6 +421,10 @@ namespace ASETests
             // Assert
             Assert.AreEqual(30, parser.variables["x"], "Variable value was not modified correctly.");
         }
+
+        /// <summary>
+        /// Defines the test for the syntax check feature.
+        /// </summary>
         [TestMethod]
         public void TestSyntaxCheck()
         {
@@ -364,5 +443,52 @@ namespace ASETests
                 // pass
             }
         }
+
+        /// <summary>
+        /// Defines the test for methods with parameters.
+        /// </summary>
+        [TestMethod]
+        public void TestMethodsWithParam()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.ProcessCommand("method func1 (n1)");
+            parser.ProcessCommand("x = n1");
+            parser.ProcessCommand("endmethod");
+            parser.ProcessCommand("func1 (10)");
+
+
+            // Assert
+            Assert.IsTrue(parser.variables.ContainsKey("x"), "Variable was not declared.");
+            Assert.AreEqual(10, parser.variables["x"], "Variable value was not modified correctly.");
+        }
+
+        /// <summary>
+        /// Defines the test for methods without parameters.
+        /// </summary>
+        [TestMethod]
+        public void TestMethodsWithoutParam()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.ProcessCommand("method func1 ()");
+            parser.ProcessCommand("x = 40");
+            parser.ProcessCommand("endmethod");
+            parser.ProcessCommand("func1 ()");
+
+
+            // Assert
+            Assert.IsTrue(parser.variables.ContainsKey("x"), "Variable was not declared.");
+            Assert.AreEqual(40, parser.variables["x"], "Variable value was not modified correctly.");
+        }
+
     }
 }
