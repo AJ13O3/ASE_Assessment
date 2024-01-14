@@ -325,11 +325,9 @@ namespace ASE_Assessment
             }
 
             /// <summary>
-            /// Handles the assignment of values to variables in the graphical programming language.
-            /// This section is triggered when the entry contains an equals sign '=', 
-            /// indicating an assignment operation.
+            /// Handles assignment of values to variables.
             /// </summary>
-            /// <param name="entry">The input string containing the assignment expression.</param>
+
             else if (entry.Contains("="))
             {
                 string[] parts = entry.Split(' ');
@@ -452,7 +450,8 @@ namespace ASE_Assessment
                         throw new CommandException($"Invalid parameter for {parts[0]} command: {parts[i]}");
                     }
                     
-                }                
+                }
+                
             }
 
             else if (entry.Contains("="))
@@ -630,6 +629,10 @@ namespace ASE_Assessment
         private void DrawStar(string pointsParameter, string sizeMultiplierParameter)
         {
             int points = GetParameterValue(pointsParameter);
+            if (points < 4) 
+            {
+                throw new CommandException($"Number of points in star has to be over 3.");
+            }
             int sizeMultiplier = GetParameterValue(sizeMultiplierParameter);
             var star = new Star(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
             star.Draw(points, sizeMultiplier);
