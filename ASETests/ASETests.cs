@@ -43,7 +43,7 @@ namespace ASETests
             try
             {
                 parser.ProcessCommand("moveTo " + newXLocation + " " + newYLocation);
-                Assert.Fail("Expected an ArgumentException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -51,7 +51,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace ASETests
             {
                 parser.ProcessCommand("moveTo " + startX + " " + startY);
                 parser.ProcessCommand("drawTo " + endX + " " + endY);
-                Assert.Fail("Expected an ArgumentException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -105,7 +105,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
 
@@ -147,7 +147,7 @@ namespace ASETests
             try
             {
                 parser.ProcessCommand("rectangle " + width + " " + height);
-                Assert.Fail("Expected an ArgumentException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -155,7 +155,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
         [TestMethod]
@@ -171,7 +171,7 @@ namespace ASETests
             try
             {
                 parser.ProcessCommand("circle " + radius);
-                Assert.Fail("Expected an ArgumentException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -179,7 +179,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
         [TestMethod]
@@ -196,7 +196,7 @@ namespace ASETests
             try
             {
                 parser.ProcessCommand("triangle " + baseLength + " " + height);
-                Assert.Fail("Expected an ArgumentException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -204,7 +204,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an ArgumentException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
         [TestMethod]
@@ -266,7 +266,7 @@ namespace ASETests
             try
             {
                 parser.ProcessCommand(command);
-                Assert.Fail("Expected an InvalidOperationException to be thrown");
+                Assert.Fail("Expected an CommandException to be thrown");
             }
             catch (CommandException)
             {
@@ -274,7 +274,7 @@ namespace ASETests
             }
             catch (Exception altException)
             {
-                Assert.Fail("Expected an InvalidOperationException, but a different exception was thrown: " + altException.Message);
+                Assert.Fail("Expected an CommandException, but a different exception was thrown: " + altException.Message);
             }
         }
         [TestMethod]
@@ -285,18 +285,49 @@ namespace ASETests
             TextBox programBox = new TextBox();
             CommandParser parser = new CommandParser(pictureBox, programBox); 
 
-            int initialValue = 10;
-            int modifiedValue = 20;
-
             // Act
-            // Simulate declaring a variable and modifying its value
-            // Replace with actual command format and method if different
             parser.ProcessCommand("x = 10");
             parser.ProcessCommand("x = 20");
 
             // Assert
             Assert.IsTrue(parser.variables.ContainsKey("x"), "Variable was not declared.");
             Assert.AreEqual(20, parser.variables["x"], "Variable value was not modified correctly.");
+        }
+        [TestMethod]
+        public void TestVariableExpression()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.ProcessCommand("x = 10");
+            parser.ProcessCommand("x = x + 20");
+
+            // Assert
+            Assert.AreEqual(30, parser.variables["x"], "Variable value was not modified correctly.");
+        }
+        [TestMethod]
+        public void TestIfStatementExecution()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+            parser.variables["x"] = 10;
+
+            // Act & Assert
+            try
+            {
+                parser.ProcessCommand("if x > 20");
+                parser.ProcessCommand("thisisnotacommand"); //this shouldn't run, test will fail if it does
+                parser.ProcessCommand("endif");                
+            }
+            catch(CommandException)
+            {
+                Assert.Fail("Did not expect an CommandException to be thrown");
+            }
         }
     }
 }
