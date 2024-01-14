@@ -340,11 +340,29 @@ namespace ASETests
             // Act
             parser.ProcessCommand("x = 0");
             parser.ProcessCommand("loop 3");
-            parser.ProcessCommand("x = 10");
+            parser.ProcessCommand("x = x + 10");
             parser.ProcessCommand("endloop");
 
             // Assert
             Assert.AreEqual(30, parser.variables["x"], "Variable value was not modified correctly.");
+        }
+        [TestMethod]
+        public void TestSyntaxCheck()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            try
+            {
+                parser.VerifyCommand("circle -30");
+                Assert.Fail("Expected an CommandException to be thrown");
+            }
+            catch (CommandException)
+            {
+                // pass
+            }
         }
     }
 }
