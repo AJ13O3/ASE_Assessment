@@ -276,6 +276,10 @@
             <param name="call">The call.</param>
             <exception cref="T:ASE_Assessment.CommandException">Method '{methodName}' not defined.</exception>
         </member>
+        <member name="M:ASE_Assessment.CommandParser.ClearGraphics(System.Windows.Forms.PictureBox)">
+            <summary>Clears the graphics.</summary>
+            <param name="drawBox">The draw box.</param>
+        </member>
         <member name="T:ASE_Assessment.GraphicsLanguage">
             <summary>
             Class GraphicsLanguage.

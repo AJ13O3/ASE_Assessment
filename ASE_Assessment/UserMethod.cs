@@ -33,7 +33,7 @@ namespace ASE_Assessment
         /// Gets or sets the commands.
         /// </summary>
         /// <value>The commands.</value>
-        public List<string> Commands { get; set; }
+         public List<string> Commands { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserMethod"/> class.

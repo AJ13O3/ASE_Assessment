@@ -814,6 +814,17 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>Clears the graphics.</summary>
+        /// <param name="drawBox">The draw box.</param>
+        public void ClearGraphics(PictureBox drawBox)
+        {
+            if (drawBox.Image != null)
+            {
+                drawBox.Image.Dispose(); 
+            }
+            drawBox.Image = new Bitmap(drawBox.Width, drawBox.Height);
+        }
+
     }
 }
 

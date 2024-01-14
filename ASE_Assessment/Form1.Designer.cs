@@ -54,6 +54,7 @@ namespace ASE_Assessment
             saveButton = new Button();
             label1 = new Label();
             VerifyButton = new Button();
+            ClearButton = new Button();
             ((System.ComponentModel.ISupportInitialize)drawBox).BeginInit();
             SuspendLayout();
             // 
@@ -137,11 +138,23 @@ namespace ASE_Assessment
             VerifyButton.UseVisualStyleBackColor = true;
             VerifyButton.Click += VerifyButton_Click;
             // 
+            // ClearButton
+            // 
+            ClearButton.Location = new Point(484, 385);
+            ClearButton.Name = "ClearButton";
+            ClearButton.Size = new Size(75, 23);
+            ClearButton.TabIndex = 7;
+            ClearButton.TabStop = false;
+            ClearButton.Text = "Clear";
+            ClearButton.UseVisualStyleBackColor = true;
+            ClearButton.Click += ClearButton_Click;
+            // 
             // GraphicsLanguage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(ClearButton);
             Controls.Add(VerifyButton);
             Controls.Add(label1);
             Controls.Add(saveButton);
@@ -191,5 +204,6 @@ namespace ASE_Assessment
         /// The verify button
         /// </summary>
         private Button VerifyButton;
+        private Button ClearButton;
     }
 }

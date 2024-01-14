@@ -184,6 +184,11 @@ namespace ASE_Assessment
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void ClearButton_Click(object sender, EventArgs e)
+        {
+            commandParser.ClearGraphics(drawBox);
+        }
     }
 
 
