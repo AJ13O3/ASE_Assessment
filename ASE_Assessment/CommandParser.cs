@@ -340,7 +340,7 @@ namespace ASE_Assessment
                 currentMethod = null; // Reset the current method context
             }
             
-            else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("move") || entry.StartsWith("drawto"))
+            else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("star") || entry.StartsWith("move") || entry.StartsWith("drawto"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -403,6 +403,23 @@ namespace ASE_Assessment
                 else
                 {
                     throw new CommandException($"Invalid syntax for assignment: {entry}");
+                }
+            }
+
+            else if (entry == "fill on" || entry == "fill off")
+            {
+                string[] parts = entry.Split(' ');
+
+                if (parts.Length == 2)
+                {
+                    if (!(parts[1] == "on" || parts[1] == "off"))
+                    {
+                        throw new CommandException($"Invalid parameter for {parts[0]} command: {parts[1]}");
+                    }
+                }
+                else
+                {
+                    throw new CommandException($"Invalid parameter for {parts[0]} command");
                 }
             }
 

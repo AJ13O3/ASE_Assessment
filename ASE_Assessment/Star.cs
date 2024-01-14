@@ -40,7 +40,7 @@
         {
             PointF[] starPoints = new PointF[points * 2];
             double angleBetweenPoints = Math.PI / points;
-            float outerRadius = 100 * sizeMultiplier; // Outer radius of the star
+            float outerRadius = 10 * sizeMultiplier; // Outer radius of the star
             float innerRadius = outerRadius / 2;      // Inner radius of the star
 
             for (int i = 0; i < points * 2; i++)
