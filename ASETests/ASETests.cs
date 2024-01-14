@@ -329,5 +329,22 @@ namespace ASETests
                 Assert.Fail("Did not expect an CommandException to be thrown");
             }
         }
+        [TestMethod]
+        public void TestLoop()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox);
+
+            // Act
+            parser.ProcessCommand("x = 0");
+            parser.ProcessCommand("loop 3");
+            parser.ProcessCommand("x = 10");
+            parser.ProcessCommand("endloop");
+
+            // Assert
+            Assert.AreEqual(30, parser.variables["x"], "Variable value was not modified correctly.");
+        }
     }
 }
