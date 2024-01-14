@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : ASE_Assessment
+// Author           : amanj
+// Created          : 11-08-2023
+//
+// Last Modified By : amanj
+// Last Modified On : 01-14-2024
+// ***********************************************************************
+// <copyright file="CommandParser.cs" company="ASE_Assessment">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,28 +27,81 @@ using System.Threading.Tasks;
 // THREADS
 namespace ASE_Assessment
 {
+    /// <summary>
+    /// Class CommandParser.
+    /// </summary>
     public class CommandParser
     {
+        /// <summary>
+        /// Graphics 
+        /// </summary>
         private Graphics g;
+        /// <summary>
+        /// The current pen colour
+        /// </summary>
         public Color currentPenColour = Color.Black;
+        /// <summary>
+        /// The current x location
+        /// </summary>
         public int currentXLocation = 10;
+        /// <summary>
+        /// The current y location
+        /// </summary>
         public int currentYLocation = 10;
+        /// <summary>
+        /// The fill status
+        /// </summary>
         public bool fillStatus = false;
+        /// <summary>
+        /// The draw box
+        /// </summary>
         private PictureBox drawBox;
+        /// <summary>
+        /// The program box
+        /// </summary>
         private TextBox programBox;
 
-        private Dictionary<string, int> variables = new Dictionary<string, int>();
+        /// <summary>
+        /// The variables
+        /// </summary>
+        public Dictionary<string, int> variables = new Dictionary<string, int>();
 
+        /// <summary>
+        /// If block
+        /// </summary>
         private bool ifBlock = false;
+        /// <summary>
+        /// The execute command
+        /// </summary>
         private bool executeCommand = true;
 
+        /// <summary>
+        /// The loop block
+        /// </summary>
         private bool loopBlock = false;
+        /// <summary>
+        /// The loop count
+        /// </summary>
         private int loopCount = 0;
+        /// <summary>
+        /// The loop commands
+        /// </summary>
         private List<string> loopCommands = new List<string>();
 
+        /// <summary>
+        /// Variable declaration for UserMethod
+        /// </summary>
         private UserMethod currentMethod;
+        /// <summary>
+        /// The user methods
+        /// </summary>
         private Dictionary<string, UserMethod> userMethods = new Dictionary<string, UserMethod>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandParser"/> class.
+        /// </summary>
+        /// <param name="pictureBox">The picture box.</param>
+        /// <param name="programBox">The program box.</param>
         public CommandParser(PictureBox pictureBox, TextBox programBox)
         {
             drawBox = pictureBox;
@@ -43,6 +109,19 @@ namespace ASE_Assessment
             this.programBox = programBox;
         }
 
+        /// <summary>
+        /// Processes the command.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for rectangle command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for circle command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for triangle command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for star command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for moveTo command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for drawTo command: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid operation: {op}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for expression:{entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Not a valid command: {entry}</exception>
         public void ProcessCommand(string entry)
         {
             entry = entry.ToLower();
@@ -245,6 +324,12 @@ namespace ASE_Assessment
 
             }
 
+            /// <summary>
+            /// Handles the assignment of values to variables in the graphical programming language.
+            /// This section is triggered when the entry contains an equals sign '=', 
+            /// indicating an assignment operation.
+            /// </summary>
+            /// <param name="entry">The input string containing the assignment expression.</param>
             else if (entry.Contains("="))
             {
                 string[] parts = entry.Split(' ');
@@ -306,6 +391,20 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>
+        /// Verifies the program.
+        /// </summary>
+        /// <param name="entry">The entry.</param>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid method name: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Method '{parts[1]}' is already defined.</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Method '{parts[1]}' needs brackets around parameters.</exception>
+        /// <exception cref="ASE_Assessment.CommandException">'Endmethod' command without a corresponding method start.</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameter for {parts[0]} command: {parts[i]}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid operation: {op}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid syntax for assignment: {entry}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameter for {parts[0]} command: {parts[1]}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameter for {parts[0]} command</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid command: {entry}</exception>
         public void VerifyCommand(string entry)
         {
             entry = entry.ToLower();
@@ -435,14 +534,18 @@ namespace ASE_Assessment
 
 
         }
-        /// <summary>Changes the colour of the pen.</summary>
-        /// <param name="colour">The colour.</param> 
+        /// <summary>
+        /// Changes the colour of the pen.
+        /// </summary>
+        /// <param name="colour">The colour.</param>
         private void PenColour(Color colour)
         {
             currentPenColour = colour;
         }
 
-        /// <summary>Moves to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
+        /// <summary>
+        /// Moves to a point defined by the x and y integers which represent x and y co-ordinates.
+        /// </summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
         private void MoveTo(string x, string y)
@@ -454,7 +557,9 @@ namespace ASE_Assessment
             currentYLocation = yVal;
         }
 
-        /// <summary>Draws to a point defined by the x and y integers which represent x and y co-ordinates.</summary>
+        /// <summary>
+        /// Draws to a point defined by the x and y integers which represent x and y co-ordinates.
+        /// </summary>
         /// <param name="x">The x position of the pen.</param>
         /// <param name="y">The y position of the pen.</param>
         private void DrawTo(string x, string y)
@@ -470,14 +575,18 @@ namespace ASE_Assessment
             currentYLocation = yVal;
         }
 
-        /// <summary>Resets the pen to it's default position.</summary>
+        /// <summary>
+        /// Resets the pen to it's default position.
+        /// </summary>
         private void Reset()
         {
             MoveTo("10", "10");
             fillStatus = false;
         }
 
-        /// <summary>Draws a rectangle.</summary>
+        /// <summary>
+        /// Draws a rectangle.
+        /// </summary>
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
         private void DrawRectangle(string width, string height)
@@ -489,8 +598,10 @@ namespace ASE_Assessment
             rectangle.Draw(widthVal, heightVal);
         }
 
-        /// <summary>Draws a circle.</summary>
-        /// <param name="radius">The radius of the circle.</param>
+        /// <summary>
+        /// Draws a circle.
+        /// </summary>
+        /// <param name="radiusParameter">The radius parameter.</param>
         private void DrawCircle(string radiusParameter)
         {
             int radius = GetParameterValue(radiusParameter);
@@ -498,9 +609,11 @@ namespace ASE_Assessment
             circle.Draw(radius);
         }
 
-        /// <summary>Draws a triangle.</summary>
-        /// <param name="baseLength">Length of the base.</param>
-        /// <param name="height">The height of the triangle.</param>
+        /// <summary>
+        /// Draws a triangle.
+        /// </summary>
+        /// <param name="baseLengthParameter">The base length parameter.</param>
+        /// <param name="heightParameter">The height parameter.</param>
         private void DrawTriangle(string baseLengthParameter, string heightParameter)
         {
             int baseLength = GetParameterValue(baseLengthParameter);
@@ -509,6 +622,11 @@ namespace ASE_Assessment
             triangle.Draw(baseLength, height);
         }
 
+        /// <summary>
+        /// Draws the star.
+        /// </summary>
+        /// <param name="pointsParameter">The points parameter.</param>
+        /// <param name="sizeMultiplierParameter">The size multiplier parameter.</param>
         private void DrawStar(string pointsParameter, string sizeMultiplierParameter)
         {
             int points = GetParameterValue(pointsParameter);
@@ -517,6 +635,14 @@ namespace ASE_Assessment
             star.Draw(points, sizeMultiplier);
         }
 
+        /// <summary>
+        /// Returns the parameter value. Checks if parameter is in the variable list or not.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>System.Int32.</returns>
+        /// <exception cref="ASE_Assessment.CommandException">Parameter value cannot be negative: {value}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Parameter value cannot be negative: {parsedValue}</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameter: {parameter}</exception>
         private int GetParameterValue(string parameter)
         {
             parameter = parameter.Trim();
@@ -544,18 +670,29 @@ namespace ASE_Assessment
             throw new CommandException($"Invalid parameter: {parameter}");
         }
 
-        /// <summary>Set the fill mode to on.</summary>
+        /// <summary>
+        /// Set the fill mode to on.
+        /// </summary>
         private void FillOn()
         {
             fillStatus = true;
         }
 
-        /// <summary>Set the fill mode to off.</summary>
+        /// <summary>
+        /// Set the fill mode to off.
+        /// </summary>
         private void FillOff()
         {
             fillStatus = false;
         }
 
+        /// <summary>
+        /// Evaluates condition.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid operator in condition</exception>
+        /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for if condition</exception>
         private bool EvaluateCondition(string condition)
         {
             // Evaluate the condition expression (eg count > size)
@@ -594,6 +731,11 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>
+        /// Defines the method.
+        /// </summary>
+        /// <param name="definition">The definition.</param>
+        /// <exception cref="ASE_Assessment.CommandException">A method with the name '{methodName}' already exists.</exception>
         private void DefineMethod(string definition)
         {
             var parts = definition.Split(" ");
@@ -624,6 +766,11 @@ namespace ASE_Assessment
             userMethods.Add(methodName, currentMethod);// Store the method definition
 
         }
+        /// <summary>
+        /// Calls the method.
+        /// </summary>
+        /// <param name="call">The call.</param>
+        /// <exception cref="ASE_Assessment.CommandException">Method '{methodName}' not defined.</exception>
         private void CallMethod(string call)
         {
             // Split the invocation into the method name and arguments

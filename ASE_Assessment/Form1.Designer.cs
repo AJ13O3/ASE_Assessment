@@ -1,5 +1,23 @@
-﻿namespace ASE_Assessment
+﻿// ***********************************************************************
+// Assembly         : ASE_Assessment
+// Author           : amanj
+// Created          : 11-08-2023
+//
+// Last Modified By : amanj
+// Last Modified On : 01-12-2024
+// ***********************************************************************
+// <copyright file="Form1.Designer.cs" company="ASE_Assessment">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace ASE_Assessment
 {
+    /// <summary>
+    /// Class GraphicsLanguage.
+    /// Implements the <see cref="System.Windows.Forms.Form" />
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     partial class GraphicsLanguage
     {
         /// <summary>
@@ -141,13 +159,37 @@
 
         #endregion
 
+        /// <summary>
+        /// The command line
+        /// </summary>
         private TextBox commandLine;
+        /// <summary>
+        /// The run button
+        /// </summary>
         private Button runButton;
+        /// <summary>
+        /// The draw box
+        /// </summary>
         private PictureBox drawBox;
+        /// <summary>
+        /// The program box
+        /// </summary>
         private TextBox programBox;
+        /// <summary>
+        /// The open button
+        /// </summary>
         private Button openButton;
+        /// <summary>
+        /// The save button
+        /// </summary>
         private Button saveButton;
+        /// <summary>
+        /// The label1
+        /// </summary>
         private Label label1;
+        /// <summary>
+        /// The verify button
+        /// </summary>
         private Button VerifyButton;
     }
 }

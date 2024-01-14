@@ -45,7 +45,7 @@ namespace ASETests
                 parser.ProcessCommand("moveTo " + newXLocation + " " + newYLocation);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
-            catch (ArgumentException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -99,7 +99,7 @@ namespace ASETests
                 parser.ProcessCommand("drawTo " + endX + " " + endY);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
-            catch (ArgumentException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -149,7 +149,7 @@ namespace ASETests
                 parser.ProcessCommand("rectangle " + width + " " + height);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
-            catch (ArgumentException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -173,7 +173,7 @@ namespace ASETests
                 parser.ProcessCommand("circle " + radius);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
-            catch (ArgumentException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -198,7 +198,7 @@ namespace ASETests
                 parser.ProcessCommand("triangle " + baseLength + " " + height);
                 Assert.Fail("Expected an ArgumentException to be thrown");
             }
-            catch (ArgumentException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -268,7 +268,7 @@ namespace ASETests
                 parser.ProcessCommand(command);
                 Assert.Fail("Expected an InvalidOperationException to be thrown");
             }
-            catch (InvalidOperationException)
+            catch (CommandException)
             {
                 // Test pass
             }
@@ -276,6 +276,27 @@ namespace ASETests
             {
                 Assert.Fail("Expected an InvalidOperationException, but a different exception was thrown: " + altException.Message);
             }
+        }
+        [TestMethod]
+        public void TestVariableDeclarationAndModification()
+        {
+            // Arrange
+            PictureBox pictureBox = new PictureBox();
+            TextBox programBox = new TextBox();
+            CommandParser parser = new CommandParser(pictureBox, programBox); 
+
+            int initialValue = 10;
+            int modifiedValue = 20;
+
+            // Act
+            // Simulate declaring a variable and modifying its value
+            // Replace with actual command format and method if different
+            parser.ProcessCommand("x = 10");
+            parser.ProcessCommand("x = 20");
+
+            // Assert
+            Assert.IsTrue(parser.variables.ContainsKey("x"), "Variable was not declared.");
+            Assert.AreEqual(20, parser.variables["x"], "Variable value was not modified correctly.");
         }
     }
 }

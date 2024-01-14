@@ -1,4 +1,17 @@
-﻿using System;
+﻿// ***********************************************************************
+// Assembly         : ASE_Assessment
+// Author           : amanj
+// Created          : 11-08-2023
+//
+// Last Modified By : amanj
+// Last Modified On : 01-12-2024
+// ***********************************************************************
+// <copyright file="Form1.cs" company="ASE_Assessment">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,11 +25,22 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ASE_Assessment
 {
+    /// <summary>
+    /// Class GraphicsLanguage.
+    /// Implements the <see cref="Form" />
+    /// </summary>
+    /// <seealso cref="Form" />
     public partial class GraphicsLanguage : Form
     {
+        /// <summary>
+        /// The command parser
+        /// </summary>
         private CommandParser commandParser;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GraphicsLanguage"/> class.
+        /// </summary>
         public GraphicsLanguage()
         {
             InitializeComponent();
@@ -24,6 +48,11 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the runButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void runButton_Click(object sender, EventArgs e)
         {
             try
@@ -47,6 +76,11 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>
+        /// Handles the KeyPress event of the commandLine control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyPressEventArgs"/> instance containing the event data.</param>
         private void commandLine_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -63,6 +97,11 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the saveButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void saveButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -82,6 +121,11 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the openButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void openButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -100,6 +144,11 @@ namespace ASE_Assessment
             }
         }
 
+        /// <summary>
+        /// Handles the KeyDown event of the programBox control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         private void programBox_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -115,6 +164,11 @@ namespace ASE_Assessment
 
         }
 
+        /// <summary>
+        /// Handles the Click event of the VerifyButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void VerifyButton_Click(object sender, EventArgs e)
         {
             try

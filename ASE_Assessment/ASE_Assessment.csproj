@@ -6,6 +6,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>C:\Users\amanj\Desktop\ASE_XML_DOC.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
