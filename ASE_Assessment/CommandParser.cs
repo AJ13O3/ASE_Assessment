@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -160,6 +161,20 @@ namespace ASE_Assessment
                 else
                 {
                     throw new CommandException($"Invalid parameters for triangle command: {entry}");
+                }
+            }
+
+            else if (entry.StartsWith("star"))
+            {
+                string[] parts = entry.Split(' ');
+
+                if (parts.Length == 3)
+                {
+                    DrawStar(parts[1], parts[2]);                  
+                }
+                else
+                {
+                    throw new CommandException($"Invalid parameters for star command: {entry}");
                 }
             }
 
@@ -404,7 +419,7 @@ namespace ASE_Assessment
 
         }
         /// <summary>Changes the colour of the pen.</summary>
-        /// <param name="colour">The colour.</param>
+        /// <param name="colour">The colour.</param> 
         private void PenColour(Color colour)
         {
             currentPenColour = colour;
@@ -475,6 +490,14 @@ namespace ASE_Assessment
             int height = GetParameterValue(heightParameter);
             var triangle = new Triangle(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
             triangle.Draw(baseLength, height);
+        }
+
+        private void DrawStar(string pointsParameter, string sizeMultiplierParameter)
+        {
+            int points = GetParameterValue(pointsParameter);
+            int sizeMultiplier = GetParameterValue(sizeMultiplierParameter);
+            var star = new Star(g, currentPenColour, fillStatus, currentXLocation, currentYLocation);
+            star.Draw(points, sizeMultiplier);
         }
 
         private int GetParameterValue(string parameter)
@@ -584,7 +607,6 @@ namespace ASE_Assessment
             userMethods.Add(methodName, currentMethod);// Store the method definition
 
         }
-
         private void CallMethod(string call)
         {
             // Split the invocation into the method name and arguments
