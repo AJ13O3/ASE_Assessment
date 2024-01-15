@@ -432,7 +432,7 @@ namespace ASE_Assessment
                 currentMethod = null; // Reset the current method context
             }
             
-            else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("star") || entry.StartsWith("move") || entry.StartsWith("drawto"))
+            else if (entry.StartsWith("rectangle") || entry.StartsWith("circle") || entry.StartsWith("triangle") || entry.StartsWith("star") || entry.StartsWith("move") || entry.StartsWith("drawto") || entry.StartsWith("loop"))
             {
                 string[] parts = entry.Split(' ');
 
@@ -759,7 +759,7 @@ namespace ASE_Assessment
             {
                 Parameters = parameters
             };
-
+            
             userMethods.Add(methodName, currentMethod);// Store the method definition
 
         }
