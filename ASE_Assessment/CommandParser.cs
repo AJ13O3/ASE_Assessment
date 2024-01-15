@@ -144,8 +144,7 @@ namespace ASE_Assessment
 
             else if (entry.Contains("("))
             {
-                int parenthesisIndex = entry.IndexOf('(');
-                string methodName = entry.Substring(0, parenthesisIndex).Trim();
+                string methodName = entry.Split(" ")[0];
 
                 if (userMethods.ContainsKey(methodName))
                 {
