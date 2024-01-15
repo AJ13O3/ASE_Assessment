@@ -129,21 +129,16 @@ namespace ASE_Assessment
            
             if (entry.StartsWith("method"))
             {
-                // Start of a method definition
                 DefineMethod(entry);
             }
 
             else if (entry.StartsWith("endmethod"))
             {
-                // End of a method definition
-                // Assuming currentMethod is a field that tracks method being defined
                 currentMethod = null;
-
             }
 
             else if (currentMethod != null)
             {
-                // Add commands to the current method definition
                 currentMethod.Commands.Add(entry);
             }
 
@@ -429,7 +424,7 @@ namespace ASE_Assessment
 
             else if (entry == "endmethod")
             {
-                // Check if there is a current method context that is being ended
+                // Check if inside a method definition block 
                 if (currentMethod == null)
                 {
                     throw new CommandException("'Endmethod' command without a corresponding method start.");
@@ -659,7 +654,7 @@ namespace ASE_Assessment
                 return value;
             }
 
-            // If not a variable, try parsing the parameter as an integer
+            // If not a variable, parse parameter as an integer
             if (int.TryParse(parameter, out int parsedValue))
             {
                 if (parsedValue < 0)
@@ -698,7 +693,6 @@ namespace ASE_Assessment
         /// <exception cref="ASE_Assessment.CommandException">Invalid parameters for if condition</exception>
         private bool EvaluateCondition(string condition)
         {
-            // Evaluate the condition expression (eg count > size)
             string[] parts = condition.Split(" ");
 
             if (parts.Length == 3)
@@ -709,7 +703,7 @@ namespace ASE_Assessment
                 int int1 = GetParameterValue(val1);
                 int int2 = GetParameterValue(val2);
                 
-                switch (op) // found this in w3 schools
+                switch (op)
                 {
                     case ">":
                         return int1 > int2;
@@ -743,7 +737,7 @@ namespace ASE_Assessment
         {
             var parts = definition.Split(" ");
 
-            var methodName = parts[1]; // Get the method name                                       
+            var methodName = parts[1];                                       
             var parametersPart = definition.Substring(definition.IndexOf('(') + 1);// Extracting the parameter list
             parametersPart = parametersPart.Substring(0, parametersPart.IndexOf(')')).Trim();
 
@@ -811,7 +805,6 @@ namespace ASE_Assessment
             }
             else
             {
-                // Handle the case when the method is not found
                 throw new CommandException($"Method '{methodName}' not defined.");
             }
 
